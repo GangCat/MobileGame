@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerMovement movement;
     private PlayerInventory inventory;
     private PlayerHealth health;
+    private PlayerModelController model;
     private Action<int, int> gameOverAction;
 
     public void Init(IWalkableBlockManager _blockManager, Action<int, int> _gameOverAction)
@@ -13,11 +14,13 @@ public class PlayerManager : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         inventory = GetComponent<PlayerInventory>();
         health = GetComponent<PlayerHealth>();
+        model = GetComponentInChildren<PlayerModelController>();
         gameOverAction = _gameOverAction;
 
-        movement.Init(_blockManager, onGameOver, inventory.ProcessBlock);
+        movement.Init(_blockManager, onGameOver, inventory.ProcessBlock, model.UpdateModelForward);
         inventory.Init();
         health.Init(100, 100, 0.5f, onGameOver);
+        model.Init();
 
         movement.OnBlockProcessed += health.IncrementBlocksTraveled;
         movement.OnBlockProcessed += health.RecoverHP;
@@ -33,6 +36,7 @@ public class PlayerManager : MonoBehaviour
         movement.ResetPlayer(_originPos);
         inventory.ResetPlayer();
         health.ResetPlayer();
+        model.ResetModelForward();
     }
 
     public Vector3 getCurPos()

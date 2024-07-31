@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
 {
-    private Vector2 prevDir;
-    private IWalkableBlockManager iBlockManager;
-    private Vector2 curDir; // 현재 방향을 저장하는 변수
-    private Action onGameOver; // 게임 종료를 알리는 액션
-    private Action<EBlockType> onInventoryIncrease; // 도착한 블럭의 타입에 따라 재화를 상승시키는 액션.
+    private Vector2 prevDir = Vector2.zero;
+    private Vector2 curDir = Vector2.zero; // 현재 방향을 저장하는 변수
+
+    private Action onGameOverAction = null; // 게임 종료를 알리는 액션
+    private Action<EBlockType> onInventoryIncreaseAction = null; // 도착한 블럭의 타입에 따라 재화를 상승시키는 액션.
+    private Action<Vector2> updateModelForwardAction = null;
+
+    private IWalkableBlockManager iBlockManager = null;
 
     public event Action OnBlockProcessed; // 블럭을 한 칸 이동할때마다 호출할 이벤트
     public bool IsGameStop { get; set; } = true;
 
     private List<IPlayerMoveObserver> observerList = new List<IPlayerMoveObserver>();
 
-    public void Init(IWalkableBlockManager _blockManager, Action _onGameOver, Action<EBlockType> _onInventoryIncrease)
+    public void Init(IWalkableBlockManager _iBlockManager, Action _onGameOverAction, Action<EBlockType> _onInventoryIncreaseAction, Action<Vector2> _updateModelForwardAction)
     {
         prevDir = Vector2.zero;
         curDir = Vector2.zero;
-        iBlockManager = _blockManager;
-        onGameOver = _onGameOver;
-        onInventoryIncrease = _onInventoryIncrease;
+        iBlockManager = _iBlockManager;
+        onGameOverAction = _onGameOverAction;
+        updateModelForwardAction = _updateModelForwardAction;
+        onInventoryIncreaseAction = _onInventoryIncreaseAction;
     }
 
     public void ResetPlayer(Vector3 _originPos)
@@ -44,10 +48,11 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
         if (iBlockManager.CheckBlockExistence(_nextPosition))
         {
             var curBlockType = iBlockManager.DequeueBlockAndGetBlockInterface(); // 현재 위치의 블럭 제거
-            onInventoryIncrease?.Invoke(curBlockType);
+            onInventoryIncreaseAction?.Invoke(curBlockType);
             OnBlockProcessed?.Invoke();
             transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
             prevDir = curDir;
+            updateModelForwardAction?.Invoke(curDir);
             NotifyObservers(curBlockType);
         }
         else
@@ -55,7 +60,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
             iBlockManager.DequeueBlock(); // 블럭만 제거
             transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
             Debug.Log("Game Over: No block in the intended direction.");
-            onGameOver?.Invoke(); // 게임 종료를 알림
+            onGameOverAction?.Invoke(); // 게임 종료를 알림
         }
     }
 
