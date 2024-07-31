@@ -16,7 +16,16 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
         camOffset = transform.position - playerTr.position;
     }
 
-    public void OnNotify(EBlockType _blockType)
+    public void ResetCamPos(in Vector3 _playerOriginPos)
+    {
+        if (followPlayerSmoothCoroutine is not null)
+        {
+            StopCoroutine(followPlayerSmoothCoroutine);
+        }
+        transform.position = _playerOriginPos + camOffset;
+    }
+
+    public void OnNotify(in EBlockType _blockType)
     {
         if (followPlayerSmoothCoroutine is not null)
         {

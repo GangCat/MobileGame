@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
         // 게임 종료 처리 로직
     }
 
+    /// <summary>
+    /// 게임시작버튼 눌렀을 때 호출
+    /// </summary>
     public void StartGameCountdown()
     {
         //playerManager.ResetPlayer(playerOriginPos);
@@ -67,6 +70,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CountdownCoroutine());
     }
 
+    /// <summary>
+    /// 카운트다운하는 코루틴, 사운드랑 묶여있음.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CountdownCoroutine()
     {
         audioMng.FadeOutBackground();
@@ -88,6 +95,9 @@ public class GameManager : MonoBehaviour
         // 블럭 타입에 따른 추가 로직
     }
 
+    /// <summary>
+    /// 결과창 닫는 순간 호출되는 함수들.
+    /// </summary>
     public void CloseResultAndGoLobby()
     {
         uiMng.EnterLobby();
@@ -95,5 +105,6 @@ public class GameManager : MonoBehaviour
         scoreMng.ResetScore();
         walkableBlockMng.ResetBlock();
         audioMng.PlayMenuBackgroundMusic();
+        cam.ResetCamPos(playerOriginPos);
     }
 }

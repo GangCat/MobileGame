@@ -1,4 +1,4 @@
 public interface IPlayerMoveObserver
 {
-    void OnNotify(EBlockType _blockType);
+    void OnNotify(in EBlockType _blockType);
 }

@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
         }
     }
 
-    public void NotifyObservers(EBlockType _blockType)
+    public void NotifyObservers(in EBlockType _blockType)
     {
         foreach (var observer in observerList)
         {

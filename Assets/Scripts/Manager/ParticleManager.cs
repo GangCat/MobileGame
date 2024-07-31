@@ -40,7 +40,7 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
         }
     }
 
-    public void OnNotify(EBlockType _blockType)
+    public void OnNotify(in EBlockType _blockType)
     {
         SpawnParticle(_blockType);
     }

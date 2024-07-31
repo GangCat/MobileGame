@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
         onUpdateScoreAction?.Invoke(curScore);
     }
 
-    public void OnNotify(EBlockType _blockType)
+    public void OnNotify(in EBlockType _blockType)
     {
         // 50콤보마다 각 블럭의 점수가 1점 추가되어 계산
         curScore += 1 + curBlockCombo / 50;
