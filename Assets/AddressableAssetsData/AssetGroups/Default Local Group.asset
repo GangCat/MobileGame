@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1e4e10408bed0b14c82c8643e37338a5
+  m_SerializeEntries:
+  - m_GUID: 48779b0181f89524a91b926f8c3d4b31
+    m_Address: WalkableBlock.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2118cebde9c0494197217a07f78c030
+    m_Address: M_NormalBlock.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5a7ec978524cad4f90727f5f52859db
+    m_Address: M_GoldBlock.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 10cdd6e5d6b84d44fa78fbfead672e2c
+    m_Address: M_DiaBlock.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1f5f2284cc99694d998c59489a4be74
+    m_Address: GreenBoxParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb96febd8d445554ba5e85fcefec29d3
+    m_Address: M_GreenBoxParticle.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be65f8f4d1e5b7c42876efb8db6bed78
+    m_Address: Assets/Materials/M_GoldBoxParticle.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f220a54e35e04644da148a9910d54e6e
+    m_Address: Assets/Materials/M_DiaBoxParticle.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2734cff751f9a014b964c4b9f70e60ea
+    m_Address: GoldBoxParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fb8af01caadcc64fa79cf0ce0767b7c
+    m_Address: DiaBoxParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 038eb380f27e2c944997f1aa763ecb1f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6efdc6c1e2435f440aa60ca2ba082817, type: 2}
+    - {fileID: 11400000, guid: 3900c942212530947b0456a92b78a92f, type: 2}
