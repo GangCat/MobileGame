@@ -2914,6 +2914,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 674850912}
+  camFollowCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 23.87845
+      outSlope: 23.87845
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.03947158
+      value: 0.9425202
+      inSlope: 6.015279
+      outSlope: 0.32398286
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1926768
+    - serializedVersion: 3
+      time: 0.2019577
+      value: 0.993103
+      inSlope: 0.31130552
+      outSlope: 0.31130552
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1245095306
 GameObject:
   m_ObjectHideFlags: 0
