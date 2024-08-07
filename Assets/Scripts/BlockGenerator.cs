@@ -38,6 +38,10 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private int sideProbability = 0; // 좌우 방향 확률
     private ObjectPoolManager poolManager = null;
 
+    // 블럭 생성할 때 이동 방향으로 화살표 그리게 하기
+    // 그리고 생성된 바로 다음에도 방향 전환하게 하기
+    // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
+
     public void Init(ObjectPoolManager _poolManager)
     {
         currentDirection = Vector2.right; // 초기 방향 설정

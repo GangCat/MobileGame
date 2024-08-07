@@ -12,6 +12,9 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
     private ObjectPoolManager poolManager;
     private Transform playerTr;
 
+    // 파티클 새로 만들기
+    // 도착 이펙트보다 차라리 이전 위치에서 현 위치까지 빠르게 이동한 것을 보여주는 파티클(발구름, 잔상 등)이 필요할 듯
+
     public void Init(ObjectPoolManager _poolManager, Transform _playerTr)
     {
         poolManager = _poolManager;

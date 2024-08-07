@@ -6,6 +6,8 @@ public class PlayerModelController : MonoBehaviour
 {
     private Animator animator = null;
 
+    // 애니메이션 5블럭마다 한 번씩 바뀌도록 구현
+
     public void Init()
     {
         animator = GetComponentInChildren<Animator>();
