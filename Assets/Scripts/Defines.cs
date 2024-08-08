@@ -27,3 +27,10 @@ public enum ESFXType
     COUNTDOWN,
     LENGTH
 }
+
+public enum EArrowDir
+{
+    FWD,
+    RIGHT,
+    LEFT
+}

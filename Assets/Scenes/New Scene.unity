@@ -895,7 +895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114cde3304f22c844beff1c7ef2d6f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardProbability: 70
+  forwardProbability: 80
   minGoldBlockInterval: 20
   minDiamondBlockInterval: 100
   goldBlockProbabilityIncrement: 0.05

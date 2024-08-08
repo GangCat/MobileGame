@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class WalkableBlock : MonoBehaviour, IWalkableBlock
 {
+    [SerializeField]
+    private GameObject arrowTestMR;
+
     public Vector2 Position { get; private set; }
     public EBlockType BlockType { get; private set; }
 
@@ -15,6 +18,10 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
         transform.position = new Vector3(_position.x, -1, _position.y);
         transform.forward = new Vector3(_forward.x, 0, _forward.y);
         poolManager = _poolManager;
+
+        arrowTestMR = transform.GetChild(0).gameObject;
+        
+
         StartCoroutine(nameof(AppearBlockCoroutine));
     }
 
@@ -86,6 +93,5 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
         poolManager.ReturnObj(gameObject);
 
     }
-
 
 }

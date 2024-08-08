@@ -10,8 +10,6 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
     private IBlockGenerator iBlockGenerator = null;
     private IWalkableBlock iCurBlock;
 
-    private bool isFirstStep = true;
-
     public void Init(ObjectPoolManager _poolManager)
     {
         blockQueue = new Queue<IWalkableBlock>();
@@ -35,7 +33,6 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
         }
         blockQueue.Clear();
         iBlockGenerator.ResetBlock();
-        isFirstStep = true;
         GenerateStartBlock();
         StartBlockGenerate();
     }
