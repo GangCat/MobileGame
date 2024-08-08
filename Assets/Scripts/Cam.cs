@@ -11,8 +11,6 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
     private Vector3 camOffset = Vector3.zero;
     private Coroutine followPlayerSmoothCoroutine = null;
 
-    // 카메라 좀 더 느리게 쫓아가야 더 느낌이 살듯
-
     private void Start()
     {
         camOffset = transform.position - playerTr.position;
