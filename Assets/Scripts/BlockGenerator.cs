@@ -42,6 +42,30 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     // 그리고 생성된 바로 다음에도 방향 전환하게 하기
     // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
 
+
+    // 생성 알고리즘을 조금 바꿔서
+    // 지금은 지금 생성되는 블럭의 위치를 지금 결정하는데
+    // 그렇게되면 이전 블럭에 꺾이는 화살표를 그릴 수 없음
+    // 그러니까 블럭을 생성할 때 다음 블럭의 방향까지 미리 결정하고
+    // 그 방향에 따라 블럭에 그려질 화살표를 결정
+    // 그러면 방향결정할때 확률로 다음 블럭은 어디로 휠지 결정하고
+    // 그걸 매번 갱신
+    // 이 때 그 갱신 주기는 지금블럭 생성 이후에 하도록 구현
+    // 일단 그림 하지말고 대충 스프라이트 하나로 해서 색을 빨주노 이런식으로 테스트
+
+    // hasturned 없에고 관련 예외 없에면 바로바로 회전 가능함.
+    // 대신 다음 위치에 블럭 있는지 확인해야함.
+    // 그럼 블럭 있는지 확인하는 내용은 언제? 다음 방향 결정할 때.
+
+
+
+    // 1. 초기화시기에 다음 블럭 방향 무조건 정면으로 결정.
+    // 2. 블럭 생성시기에 이미 결정된 방향으로 블럭 생성.
+    // 3. 블럭 생성 후 다음 블럭 방향 결정.
+    // 3.1. 방향이 좌/우측 방향일 경우 현재 블럭에 표기되는 화살표를 해당 방향으로 휘어지는 화살표로 설정.
+    // 3.2. 방향이 정면일 경우 정면 방향 화살표로 설정.
+    // 이러면 화살표는 정면, 좌회전, 우회전 2개면 됨.(이미지 빨 파 초로 임시사용)
+
     public void Init(ObjectPoolManager _poolManager)
     {
         currentDirection = Vector2.right; // 초기 방향 설정
@@ -92,7 +116,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             }
         }
 
-        block.Init(_position, _blockType, poolManager);
+        block.Init(_position, _blockType, poolManager, currentDirection);
 
         return block;
     }
@@ -148,34 +172,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     {
         Vector2 newPosition = Vector2.zero;
 
-        if (hasTurned)
-        {
-            // 이전에 방향 전환이 있었다면 무조건 진행방향으로 생성
-            newPosition = currentPosition + directionArr[0];
-            hasTurned = false;
-        }
-        else
-        {
-            int randomValue = random.Next(0, 100);
-            if (randomValue < forwardProbability)
-            {
-                newPosition = currentPosition + directionArr[0];
-            }
-            else if (randomValue < forwardProbability + sideProbability)
-            {
-                newPosition = currentPosition + directionArr[1];
-                currentDirection = directionArr[1]; // 새로운 진행 방향 설정
-                hasTurned = true;
-                UpdateDirections();
-            }
-            else
-            {
-                newPosition = currentPosition + directionArr[2];
-                currentDirection = directionArr[2]; // 새로운 진행 방향 설정
-                hasTurned = true;
-                UpdateDirections();
-            }
-        }
+        // 이전에 설정된 방향으로 블럭 생성
+        newPosition = currentPosition + directionArr[0];
 
         EBlockType blockType = EBlockType.NORMAL;
         if (goldBlockCounter >= minGoldBlockInterval)
@@ -208,6 +206,42 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         {
             goldBlockCounter++;
             diamondBlockCounter++;
+        }
+
+
+
+        // 다음 블럭의 방향을 결정
+        if (hasTurned)
+        {
+            // 이전에 방향 전환이 있었다면 무조건 진행방향으로 생성
+            newPosition = currentPosition + directionArr[0];
+            hasTurned = false;
+            Debug.Log("정면");
+        }
+        else
+        {
+            int randomValue = random.Next(0, 100);
+            if (randomValue < forwardProbability)
+            {
+                newPosition = currentPosition + directionArr[0];
+                Debug.Log("정면");
+            }
+            else if (randomValue < forwardProbability + sideProbability)
+            {
+                newPosition = currentPosition + directionArr[1];
+                currentDirection = directionArr[1]; // 새로운 진행 방향 설정
+                hasTurned = true;
+                UpdateDirections();
+                Debug.Log("좌회전");
+            }
+            else
+            {
+                newPosition = currentPosition + directionArr[2];
+                currentDirection = directionArr[2]; // 새로운 진행 방향 설정
+                hasTurned = true;
+                UpdateDirections();
+                Debug.Log("우회전");
+            }
         }
 
         return walkableBlock;
