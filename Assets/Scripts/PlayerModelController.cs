@@ -6,7 +6,7 @@ public class PlayerModelController : MonoBehaviour
 {
     private Animator animator = null;
 
-    // 애니메이션 5블럭마다 한 번씩 바뀌도록 구현
+    private int blockCnt = 0;
 
     public void Init()
     {
@@ -16,8 +16,14 @@ public class PlayerModelController : MonoBehaviour
     public void UpdateModelForward(Vector2 _dir)
     {
         transform.forward = new Vector3(_dir.x, 0f, _dir.y);
-        animator.SetTrigger("DoBounce");
-        animator.SetInteger("RandomAnim", Random.Range(0, 10));
+
+        ++blockCnt;
+        if(blockCnt > 4)
+        {
+            animator.SetTrigger("DoBounce");
+            animator.SetInteger("RandomAnim", Random.Range(0, 3));
+            blockCnt = 0;
+        }
     }
 
     public void ResetModelForward()
