@@ -52,13 +52,7 @@ public class PlayerManager : MonoBehaviour
 
     public float UpdatePlayerHP()
     {
-        var curHP = health.DecreaseHP();
-        if (health.GetCurrentHealth() <= 0)
-        {
-            Debug.Log("Game Over: Player ran out of health.");
-            // 게임 패배 처리
-        }
-        return curHP;
+        return health.DecreaseHP();
     }
 
     public void onGameOver()

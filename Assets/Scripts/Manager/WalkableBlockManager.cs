@@ -27,6 +27,8 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
 
     public void ResetBlock()
     {
+        iCurBlock?.Destroy();
+
         while (blockQueue.Count > 0)
         {
             blockQueue.Dequeue().Destroy();
@@ -107,7 +109,8 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
     {
         //if (!isFirstStep)
         //{
-            iCurBlock.OnPositionChanged();
+        iCurBlock.OnPositionChanged();
+        iCurBlock = null;
         //}
     }
 }
