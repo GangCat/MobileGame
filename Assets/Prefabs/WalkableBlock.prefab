@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1360027496018888097}
   - component: {fileID: 898076320734672692}
   - component: {fileID: 2479617017317347883}
-  - component: {fileID: 1517919673275487461}
+  - component: {fileID: 6852615102093659589}
   m_Layer: 6
   m_Name: WalkableBlock
   m_TagString: Untagged
@@ -168,7 +168,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1517919673275487461
+--- !u!114 &6852615102093659589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,4 +180,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a4cce75a0eaff43ace756736c97cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowTestMR: {fileID: 8911411879211484241}
+  arrowTestMR: {fileID: 2391552567265469088}

@@ -6,7 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class BlockGenerator : MonoBehaviour, IBlockGenerator
 {
     [SerializeField]
-    private int forwardProbability = 70; // 진행방향 확률
+    private float forwardProbability = 70; // 진행방향 확률
     [SerializeField]
     private int minGoldBlockInterval = 20; // 골드 블럭 최소 간격
     [SerializeField]
@@ -25,8 +25,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     [SerializeField]
     private string diamondBlockMatPath;
 
-    private int goldBlockCounter = 0; // 마지막 골드 블럭 이후 생성된 블럭 수
-    private int diamondBlockCounter = 0; // 마지막 다이아 블럭 이후 생성된 블럭 수
+    private int goldBlockInterval = 0; // 마지막 골드 블럭 이후 생성된 블럭 수
+    private int diamondBlockInterval = 0; // 마지막 다이아 블럭 이후 생성된 블럭 수
     private float goldBlockProbability = 0f; // 현재 골드 블럭 생성 확률
     private float diamondBlockProbability = 0f; // 현재 다이아 블럭 생성 확률
 
@@ -35,10 +35,12 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private Vector2 curBlockPosition = Vector2.zero;
 
     private Vector2[] blockDirArr = new Vector2[3]; // 벡터 배열을 미리 선언
-    private int sideProbability = 0; // 좌우 방향 확률
     private ObjectPoolManager poolManager = null;
-    private int originForwardProbability = 0;
     private Func<Vector2, bool> checkIsBlockCanGenFunc = null;
+
+    private float sideProbability = 0; // 좌우 방향 확률
+    private float originForwardProbability = 0;
+    private float originSideProbability = 0;
 
     private bool isNextBlockPosConfirm = false;
     private bool isFwdBlocked = false;
@@ -56,15 +58,16 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         random = new System.Random();
         curBlockPosition = Vector2.zero;
         poolManager = _poolManager;
-        originForwardProbability = forwardProbability;
         checkIsBlockCanGenFunc = _checkIsBlockCanGenFunc;
 
         poolManager.PrepareObjects(blockPrefabPath, 7);
 
         UpdateDirections();
 
+        originForwardProbability = forwardProbability;
         // 좌우 방향 확률 계산
-        sideProbability = (100 - forwardProbability) / 2;
+        sideProbability = (100 - forwardProbability) * 0.5f;
+        originSideProbability = sideProbability;
     }
 
     public void ResetBlock()
@@ -73,8 +76,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         random = new System.Random();
         curBlockPosition = Vector2.zero;
 
-        goldBlockCounter = 0;
-        diamondBlockCounter = 0;
+        goldBlockInterval = 0;
+        diamondBlockInterval = 0;
         goldBlockProbability = 0f;
         diamondBlockProbability = 0f;
 
@@ -87,7 +90,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     public WalkableBlock CreateBlock(Vector2 _position, EBlockType _blockType)
     {
         var walkableBlockGo = poolManager.GetObject(blockPrefabPath);
-        WalkableBlock block = walkableBlockGo.AddComponent<WalkableBlock>();
+        WalkableBlock block = walkableBlockGo.GetComponent<WalkableBlock>();
 
         // 머티리얼 로드 및 적용
         string materialPath = GetMaterialPath(_blockType);
@@ -165,24 +168,30 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         newPosition = curBlockPosition + blockDirArr[0];
 
         EBlockType blockType = EBlockType.NORMAL;
-        if (goldBlockCounter >= minGoldBlockInterval)
+
+        // 골드블럭 생성주기가 되었을 경우
+        if (goldBlockInterval >= minGoldBlockInterval)
         {
+            // 골드블럭 생성확률 상승
             goldBlockProbability += goldBlockProbabilityIncrement;
+
             if (random.NextDouble() < goldBlockProbability)
             {
                 blockType = EBlockType.GOLD;
-                goldBlockCounter = 0;
+                goldBlockInterval = 0;
                 goldBlockProbability = 0f;
             }
         }
 
-        if (diamondBlockCounter >= minDiamondBlockInterval)
+        // 다이아블럭 생성주기가 되었을 경우
+        if (diamondBlockInterval >= minDiamondBlockInterval)
         {
+            // 다이아블럭 생성확률 상승
             diamondBlockProbability += diamondBlockProbabilityIncrement;
             if (random.NextDouble() < diamondBlockProbability)
             {
                 blockType = EBlockType.DIAMOND;
-                diamondBlockCounter = 0;
+                diamondBlockInterval = 0;
                 diamondBlockProbability = 0f;
             }
         }
@@ -191,49 +200,52 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
         if (blockType == EBlockType.NORMAL)
         {
-            goldBlockCounter++;
-            diamondBlockCounter++;
+            goldBlockInterval++;
+            diamondBlockInterval++;
         }
 
-
+        //  다음 블럭 방향이 정해질때까지 순환
         while (!isNextBlockPosConfirm)
         {
             int randomValue = random.Next(0, 100);
 
-            // 정면 방향이 아닐 경우 좌우 결정
+            // 정면 방향일 경우
             if (randomValue < forwardProbability && !isFwdBlocked)
             {
                 // 리스트 확인
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[0]))
+                {
+                    isFwdBlocked = true;
                     continue;
+                }
 
                 isNextBlockPosConfirm = true;
                 forwardProbability -= 1;
+                sideProbability -= 0.5f;
             }
-            else if (randomValue < forwardProbability + sideProbability && !isRightBlocked)
+            // 좌측방향일 경우
+            else if (randomValue < forwardProbability + sideProbability && !isLeftBlocked)
             {
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[1]))
+                {
+                    isLeftBlocked = true;
                     continue;
+                }
 
-                isNextBlockPosConfirm = true;
-                curBlockDir = blockDirArr[1]; // 새로운 진행 방향 설정
-                forwardProbability = originForwardProbability;
-                UpdateDirections();
+                ConfirmNextDir(blockDirArr[1]);
             }
-            else if(!isLeftBlocked)
+            // 우측 방향일 경우
+            else if(!isRightBlocked)
             {
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[2]))
+                {
+                    isRightBlocked = true;
                     continue;
+                }
 
-                isNextBlockPosConfirm = true;
-                curBlockDir = blockDirArr[2]; // 새로운 진행 방향 설정
-                forwardProbability = originForwardProbability;
-                UpdateDirections();
+                ConfirmNextDir(blockDirArr[2]);
             }
         }
-
-
-
 
         // 블럭 생성 및 스택에 추가
         var walkableBlock = CreateBlock(newPosition, blockType);
@@ -242,5 +254,12 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         return walkableBlock;
     }
 
-
+    private void ConfirmNextDir(Vector2 _nextDir)
+    {
+        isNextBlockPosConfirm = true;
+        curBlockDir = _nextDir; // 새로운 진행 방향 설정
+        forwardProbability = originForwardProbability;
+        sideProbability = originSideProbability;
+        UpdateDirections();
+    }
 }

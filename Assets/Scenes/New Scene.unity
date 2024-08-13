@@ -587,6 +587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd86e437ef83434494e18616eae77fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _invincibleTime: 10
 --- !u!114 &184479155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,7 +896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114cde3304f22c844beff1c7ef2d6f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardProbability: 80
+  forwardProbability: 50
   minGoldBlockInterval: 20
   minDiamondBlockInterval: 100
   goldBlockProbabilityIncrement: 0.05

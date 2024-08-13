@@ -22,8 +22,9 @@ public class PlayerManager : MonoBehaviour
         health.Init(100, 100, 0.5f, onGameOver);
         model.Init();
 
-        movement.OnBlockProcessed += health.IncrementBlocksTraveled;
         movement.OnBlockProcessed += health.RecoverHP;
+
+        RegisterPlayerMoveObserver(health);
     }
 
     public void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer)

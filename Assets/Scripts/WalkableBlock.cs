@@ -5,16 +5,19 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
 {
     [SerializeField]
     private GameObject arrowTestMR;
+    [SerializeField]
+    private EBlockType blockType;
+
 
     public Vector2 Position { get; private set; }
-    public EBlockType BlockType { get; private set; }
+    public EBlockType BlockType => blockType;
 
     private ObjectPoolManager poolManager;
 
     public void Init(Vector2 _position, EBlockType _blockType, ObjectPoolManager _poolManager, Vector2 _forward)
     {
         Position = _position;
-        BlockType = _blockType;
+        blockType = _blockType;
         transform.position = new Vector3(_position.x, -1, _position.y);
         transform.forward = new Vector3(_forward.x, 0, _forward.y);
         poolManager = _poolManager;
