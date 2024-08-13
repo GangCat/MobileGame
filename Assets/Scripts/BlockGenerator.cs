@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -37,19 +38,26 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private int sideProbability = 0; // 좌우 방향 확률
     private ObjectPoolManager poolManager = null;
     private int originForwardProbability = 0;
+    private Func<Vector2, bool> checkIsBlockCanGenFunc = null;
+
+    private bool isNextBlockPosConfirm = false;
+    private bool isFwdBlocked = false;
+    private bool isRightBlocked = false;
+    private bool isLeftBlocked = false;
 
 
     // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
     // 그럼 블럭 있는지 확인하는 내용은 언제? 다음 방향 결정할 때.
 
 
-    public void Init(ObjectPoolManager _poolManager)
+    public void Init(ObjectPoolManager _poolManager, Func<Vector2, bool> _checkIsBlockCanGenFunc)
     {
         curBlockDir = Vector2.right; // 초기 방향 설정
         random = new System.Random();
         curBlockPosition = Vector2.zero;
         poolManager = _poolManager;
         originForwardProbability = forwardProbability;
+        checkIsBlockCanGenFunc = _checkIsBlockCanGenFunc;
 
         poolManager.PrepareObjects(blockPrefabPath, 7);
 
@@ -148,6 +156,10 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     public WalkableBlock GenerateNextBlock()
     {
         Vector2 newPosition = Vector2.zero;
+        isNextBlockPosConfirm = false;
+        isFwdBlocked = false;
+        isRightBlocked = false;
+        isLeftBlocked = false;
 
         // 이전에 설정된 방향으로 블럭 생성
         newPosition = curBlockPosition + blockDirArr[0];
@@ -184,25 +196,43 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         }
 
 
-        int randomValue = random.Next(0, 100);
+        while (!isNextBlockPosConfirm)
+        {
+            int randomValue = random.Next(0, 100);
 
-        // 정면 방향이 아닐 경우 좌우 결정
-        if (randomValue < forwardProbability)
-        {
-            forwardProbability -= 1;
+            // 정면 방향이 아닐 경우 좌우 결정
+            if (randomValue < forwardProbability && !isFwdBlocked)
+            {
+                // 리스트 확인
+                if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[0]))
+                    continue;
+
+                isNextBlockPosConfirm = true;
+                forwardProbability -= 1;
+            }
+            else if (randomValue < forwardProbability + sideProbability && !isRightBlocked)
+            {
+                if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[1]))
+                    continue;
+
+                isNextBlockPosConfirm = true;
+                curBlockDir = blockDirArr[1]; // 새로운 진행 방향 설정
+                forwardProbability = originForwardProbability;
+                UpdateDirections();
+            }
+            else if(!isLeftBlocked)
+            {
+                if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[2]))
+                    continue;
+
+                isNextBlockPosConfirm = true;
+                curBlockDir = blockDirArr[2]; // 새로운 진행 방향 설정
+                forwardProbability = originForwardProbability;
+                UpdateDirections();
+            }
         }
-        else if (randomValue < forwardProbability + sideProbability)
-        {
-            curBlockDir = blockDirArr[1]; // 새로운 진행 방향 설정
-            forwardProbability = originForwardProbability;
-            UpdateDirections();
-        }
-        else
-        {
-            curBlockDir = blockDirArr[2]; // 새로운 진행 방향 설정
-            forwardProbability = originForwardProbability;
-            UpdateDirections();
-        }
+
+
 
 
         // 블럭 생성 및 스택에 추가
@@ -211,4 +241,6 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
         return walkableBlock;
     }
+
+
 }

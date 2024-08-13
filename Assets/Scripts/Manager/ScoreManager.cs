@@ -25,9 +25,21 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
 
     public void OnNotify(in EBlockType _blockType)
     {
-        // 50콤보마다 각 블럭의 점수가 1점 추가되어 계산
-        curScore += 1 + curBlockCombo / 50;
-        ++curBlockCombo;
+        // 무조건 블럭당 1점
+        // 단, 더블스코어, 트리플스코어 블럭 지나가면 그때부터 시간 제서 점수 배수로 증가
+        switch (_blockType)
+        {
+            case EBlockType.GOLD:
+                // 시간측정 코루틴 시작, 점수 2배 적용
+                break;
+            case EBlockType.DIAMOND:
+                // 시간측정 코루틴 시작, 점수 3배 적용
+                break;
+            default:
+                ++curScore;
+                break;
+        }
+        //++curBlockCombo;
         onUpdateScoreAction?.Invoke(curScore);
     }
 }

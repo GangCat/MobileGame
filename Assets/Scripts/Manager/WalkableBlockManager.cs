@@ -14,7 +14,7 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
     {
         blockQueue = new Queue<IWalkableBlock>();
         iBlockGenerator = GetComponent<IBlockGenerator>();
-        iBlockGenerator.Init(_poolManager);
+        iBlockGenerator.Init(_poolManager, CheckIsNextBlockCanGen);
     }
 
     public void StartBlockGenerate()
@@ -35,6 +35,18 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
         iBlockGenerator.ResetBlock();
         GenerateStartBlock();
         StartBlockGenerate();
+    }
+
+
+    private bool CheckIsNextBlockCanGen(Vector2 _targetPos)
+    {
+        foreach(var block in blockQueue)
+        {
+            if (block.Position.Equals(_targetPos))
+                return false;
+        }
+
+        return true;
     }
 
     private void GenerateStartBlock()
