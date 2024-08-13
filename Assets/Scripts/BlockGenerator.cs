@@ -8,27 +8,31 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     [SerializeField]
     private float forwardProbability = 70; // 진행방향 확률
     [SerializeField]
-    private int minGoldBlockInterval = 20; // 골드 블럭 최소 간격
+    private int minScoreBlockInterval = 20; // 스코어 블럭 최소 간격
     [SerializeField]
-    private int minDiamondBlockInterval = 100; // 다이아 블럭 최소 간격
+    private int minInvincibleBlockInterval = 20; // 무적버프 블럭 최소 간격
     [SerializeField]
-    private float goldBlockProbabilityIncrement = 0.05f; // 골드 블럭 확률 상승 계수
+    private float scoreBlockProbabilityIncrement = 0.05f; // 스코어 블럭 확률 상승 계수
     [SerializeField]
-    private float diamondBlockProbabilityIncrement = 0.02f; // 다이아 블럭 확률 상승 계수
+    private float invincibleBlockProbabilityIncrement = 0.05f; // 무적버프 블럭 확률 상승 계수
 
     [SerializeField]
     private string blockPrefabPath;
     [SerializeField]
     private string normalBlockMatPath;
     [SerializeField]
-    private string goldBlockMatPath;
+    private string doubleScoreBlockMatPath;
     [SerializeField]
-    private string diamondBlockMatPath;
+    private string tripleScoreBlockMatPath;
+    [SerializeField]
+    private string invincibleBlockMatPath;
 
-    private int goldBlockInterval = 0; // 마지막 골드 블럭 이후 생성된 블럭 수
-    private int diamondBlockInterval = 0; // 마지막 다이아 블럭 이후 생성된 블럭 수
-    private float goldBlockProbability = 0f; // 현재 골드 블럭 생성 확률
-    private float diamondBlockProbability = 0f; // 현재 다이아 블럭 생성 확률
+    private int scoreBlockInterval = 0; // 마지막 스코어 블럭 이후 생성된 블럭 수
+    private float scoreBlockProbability = 0f; // 현재 스코어 블럭 생성 확률
+    private uint scoreblockCnt = 0; // 스코어 블럭이 생성된 개수
+
+    private uint invincibleBlockInterval = 0;
+    private float invincibleBlockProbability = 0f;
 
     private Vector2 curBlockDir = Vector2.zero;
     private System.Random random;
@@ -60,6 +64,13 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         poolManager = _poolManager;
         checkIsBlockCanGenFunc = _checkIsBlockCanGenFunc;
 
+        scoreBlockInterval = 0;
+        scoreBlockProbability = 0f;
+        scoreblockCnt = 0;
+
+        invincibleBlockInterval = 0;
+        invincibleBlockProbability = 0f;
+
         poolManager.PrepareObjects(blockPrefabPath, 7);
 
         UpdateDirections();
@@ -76,10 +87,12 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         random = new System.Random();
         curBlockPosition = Vector2.zero;
 
-        goldBlockInterval = 0;
-        diamondBlockInterval = 0;
-        goldBlockProbability = 0f;
-        diamondBlockProbability = 0f;
+        scoreBlockInterval = 0;
+        scoreBlockProbability = 0f;
+        scoreblockCnt = 0;
+
+        invincibleBlockInterval = 0;
+        invincibleBlockProbability = 0f;
 
         UpdateDirections();
 
@@ -113,10 +126,12 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     {
         switch (_blockType)
         {
-            case EBlockType.GOLD:
-                return goldBlockMatPath;
-            case EBlockType.DIAMOND:
-                return diamondBlockMatPath;
+            case EBlockType.DOUBLE_SCORE:
+                return doubleScoreBlockMatPath;
+            case EBlockType.TRIPLE_SCORE:
+                return tripleScoreBlockMatPath;
+            case EBlockType.INVINCIBLE_BUFF:
+                return invincibleBlockMatPath;
             default:
                 return normalBlockMatPath;
         }
@@ -167,42 +182,13 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         // 이전에 설정된 방향으로 블럭 생성
         newPosition = curBlockPosition + blockDirArr[0];
 
-        EBlockType blockType = EBlockType.NORMAL;
+        // 블럭 타입 결정
+        EBlockType blockType = ConfirmBlockType();
 
-        // 골드블럭 생성주기가 되었을 경우
-        if (goldBlockInterval >= minGoldBlockInterval)
-        {
-            // 골드블럭 생성확률 상승
-            goldBlockProbability += goldBlockProbabilityIncrement;
-
-            if (random.NextDouble() < goldBlockProbability)
-            {
-                blockType = EBlockType.GOLD;
-                goldBlockInterval = 0;
-                goldBlockProbability = 0f;
-            }
-        }
-
-        // 다이아블럭 생성주기가 되었을 경우
-        if (diamondBlockInterval >= minDiamondBlockInterval)
-        {
-            // 다이아블럭 생성확률 상승
-            diamondBlockProbability += diamondBlockProbabilityIncrement;
-            if (random.NextDouble() < diamondBlockProbability)
-            {
-                blockType = EBlockType.DIAMOND;
-                diamondBlockInterval = 0;
-                diamondBlockProbability = 0f;
-            }
-        }
-
-        // 블럭 생성 및 스택에 추가
-
-        if (blockType == EBlockType.NORMAL)
-        {
-            goldBlockInterval++;
-            diamondBlockInterval++;
-        }
+        // 블럭 사이 개수 증가
+        // 비교문으로 노말블럭만 하려다 비용아낄겸 그냥 더해주기로 함
+        ++scoreBlockInterval;
+        ++invincibleBlockInterval;
 
         //  다음 블럭 방향이 정해질때까지 순환
         while (!isNextBlockPosConfirm)
@@ -235,7 +221,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
                 ConfirmNextDir(blockDirArr[1]);
             }
             // 우측 방향일 경우
-            else if(!isRightBlocked)
+            else if (!isRightBlocked)
             {
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[2]))
                 {
@@ -252,6 +238,51 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         curBlockPosition = newPosition; // 현재 위치 업데이트
 
         return walkableBlock;
+    }
+
+    private EBlockType ConfirmBlockType()
+    {
+        float randomVal = UnityEngine.Random.Range(0f, 1f);
+        // 스코어블럭 생성주기가 되었을 경우
+        if (scoreBlockInterval >= minScoreBlockInterval)
+        {
+            // 스코어블럭 생성확률 상승
+            scoreBlockProbability += scoreBlockProbabilityIncrement;
+
+            if (randomVal < scoreBlockProbability)
+            {
+                // 5로 나눌때 나머지가 3인 경우는 5, 10번째 스코어블럭이 생성되는 순간임.
+                // 이때는 3배 점수 블럭이 생성
+                if (scoreblockCnt % 5 == 3)
+                {
+                    scoreBlockInterval = 0;
+                    scoreBlockProbability = 0f;
+                    ++scoreblockCnt;
+                    return EBlockType.TRIPLE_SCORE;
+                }
+                else
+                {
+                    scoreBlockInterval = 0;
+                    scoreBlockProbability = 0f;
+                    ++scoreblockCnt;
+                    return EBlockType.DOUBLE_SCORE;
+                }
+            }
+        }
+
+        if (invincibleBlockInterval >= minInvincibleBlockInterval)
+        {
+            invincibleBlockProbability += invincibleBlockProbabilityIncrement;
+
+            if(randomVal < invincibleBlockProbability)
+            {
+                invincibleBlockInterval = 0;
+                invincibleBlockProbability = 0f;
+                return EBlockType.INVINCIBLE_BUFF;
+            }
+        }
+
+        return EBlockType.NORMAL;
     }
 
     private void ConfirmNextDir(Vector2 _nextDir)

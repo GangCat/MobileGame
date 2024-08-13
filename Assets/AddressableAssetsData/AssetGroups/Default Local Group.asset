@@ -28,12 +28,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f5a7ec978524cad4f90727f5f52859db
-    m_Address: M_GoldBlock.mat
+    m_Address: M_DoubleBlock.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 10cdd6e5d6b84d44fa78fbfead672e2c
-    m_Address: M_DiaBlock.mat
+    m_Address: M_TripleBlock.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -58,12 +58,17 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2734cff751f9a014b964c4b9f70e60ea
-    m_Address: GoldBoxParticle.prefab
+    m_Address: DoubleBoxParticle.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4fb8af01caadcc64fa79cf0ce0767b7c
-    m_Address: DiaBoxParticle.prefab
+    m_Address: TripleBoxParticle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0c544009749adf449d1c11e91c38517
+    m_Address: M_InvincibleBlock.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

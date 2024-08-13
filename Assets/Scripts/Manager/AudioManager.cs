@@ -69,10 +69,10 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver
             case EBlockType.NORMAL:
                 PlayBlockSFX(EBlockSFXType.ON_NORMAL_BLOCK);
                 break;
-            case EBlockType.GOLD:
+            case EBlockType.DOUBLE_SCORE:
                 PlayBlockSFX(EBlockSFXType.ON_GOLD_BLOCK);
                 break;
-            case EBlockType.DIAMOND:
+            case EBlockType.TRIPLE_SCORE:
                 PlayBlockSFX(EBlockSFXType.ON_DIA_BLOCK);
                 break;
         }

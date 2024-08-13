@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6537304749713217084}
   - component: {fileID: 7388684886134069009}
   m_Layer: 0
-  m_Name: GoldBoxParticle
+  m_Name: DoubleBoxParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -897,14 +897,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardProbability: 50
-  minGoldBlockInterval: 20
-  minDiamondBlockInterval: 100
-  goldBlockProbabilityIncrement: 0.05
-  diamondBlockProbabilityIncrement: 0.02
+  minScoreBlockInterval: 50
+  minInvincibleBlockInterval: 120
+  scoreBlockProbabilityIncrement: 0.1
+  invincibleBlockProbabilityIncrement: 0.1
   blockPrefabPath: WalkableBlock.prefab
   normalBlockMatPath: M_NormalBlock.mat
-  goldBlockMatPath: M_GoldBlock.mat
-  diamondBlockMatPath: M_DiaBlock.mat
+  doubleScoreBlockMatPath: M_DoubleBlock.mat
+  tripleScoreBlockMatPath: M_TripleBlock.mat
+  invincibleBlockMatPath: M_InvincibleBlock.mat
 --- !u!1 &567499393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,6 +1245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd830c2aa2fc4e4dae56197b4abaca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScoreMultiplierTime: 5
 --- !u!4 &660548476
 Transform:
   m_ObjectHideFlags: 0
@@ -1387,8 +1389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   greenBoxParticlePath: GreenBoxParticle.prefab
-  goldBoxParticlePath: GoldBoxParticle.prefab
-  diaBoxParticlePath: DiaBoxParticle.prefab
+  doubleBoxParticlePath: DoubleBoxParticle.prefab
+  TripleBoxParticlePath: TripleBoxParticle.prefab
 --- !u!1 &720205733
 GameObject:
   m_ObjectHideFlags: 0

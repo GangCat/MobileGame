@@ -5,9 +5,9 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
     [SerializeField]
     private string greenBoxParticlePath = "";
     [SerializeField]
-    private string goldBoxParticlePath = "";
+    private string doubleBoxParticlePath = "";
     [SerializeField]
-    private string diaBoxParticlePath = "";
+    private string TripleBoxParticlePath = "";
 
     private ObjectPoolManager poolManager;
     private Transform playerTr;
@@ -21,8 +21,8 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
         playerTr = _playerTr;
 
         poolManager.PrepareObjects(greenBoxParticlePath);
-        poolManager.PrepareObjects(goldBoxParticlePath);
-        poolManager.PrepareObjects(diaBoxParticlePath);
+        poolManager.PrepareObjects(doubleBoxParticlePath);
+        poolManager.PrepareObjects(TripleBoxParticlePath);
     }
 
     public void SpawnParticle(EBlockType _particleType)
@@ -32,11 +32,11 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
             case EBlockType.NORMAL:
                 SpawnParticleAndInit(greenBoxParticlePath, playerTr.position);
                 break;
-            case EBlockType.GOLD:
-                SpawnParticleAndInit(goldBoxParticlePath, playerTr.position);
+            case EBlockType.DOUBLE_SCORE:
+                SpawnParticleAndInit(doubleBoxParticlePath, playerTr.position);
                 break;
-            case EBlockType.DIAMOND:
-                SpawnParticleAndInit(diaBoxParticlePath, playerTr.position);
+            case EBlockType.TRIPLE_SCORE:
+                SpawnParticleAndInit(TripleBoxParticlePath, playerTr.position);
                 break;
             default:
                 break;

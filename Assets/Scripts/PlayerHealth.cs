@@ -88,7 +88,7 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
     public void OnNotify(in EBlockType _blockType)
     {
         // 해당 블럭이 무적블럭일 경우 타이머 작동
-        if (_blockType.Equals(EBlockType.HP_BUFF))
+        if (_blockType.Equals(EBlockType.INVINCIBLE_BUFF))
             StartCoroutine(nameof(InvincibleTimer));
 
         //이동한 블럭 수를 증가

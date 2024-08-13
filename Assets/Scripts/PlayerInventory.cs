@@ -21,11 +21,11 @@ public class PlayerInventory : MonoBehaviour
     {
         switch (_blockType)
         {
-            case EBlockType.GOLD:
+            case EBlockType.DOUBLE_SCORE:
                 goldCount++;
                 Debug.Log("Gold block encountered! Total Gold: " + goldCount);
                 break;
-            case EBlockType.DIAMOND:
+            case EBlockType.TRIPLE_SCORE:
                 diamondCount++;
                 Debug.Log("Diamond block encountered! Total Diamonds: " + diamondCount);
                 break;

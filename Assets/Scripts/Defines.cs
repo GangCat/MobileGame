@@ -2,9 +2,9 @@ public enum EBlockType
 {
     NONE,
     NORMAL,
-    GOLD, // 10초간 더블스코어
-    DIAMOND, // 10초간 트리플스코어
-    HP_BUFF // 체력 잠시동안 무한
+    DOUBLE_SCORE, // 10초간 더블스코어
+    TRIPLE_SCORE, // 10초간 트리플스코어
+    INVINCIBLE_BUFF // 체력 잠시동안 무한
 }
 
 public enum EParticleType
