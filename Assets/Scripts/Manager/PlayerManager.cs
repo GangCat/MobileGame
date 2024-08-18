@@ -17,10 +17,10 @@ public class PlayerManager : MonoBehaviour
         model = GetComponentInChildren<PlayerModelController>();
         gameOverAction = _gameOverAction;
 
+        model.Init();
         movement.Init(_blockManager, onGameOver, inventory.ProcessBlock, model.UpdateModelForward);
         inventory.Init();
         health.Init(100, 100, 0.5f, onGameOver);
-        model.Init();
 
         movement.OnBlockProcessed += health.RecoverHP;
 
