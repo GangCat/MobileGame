@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private ObjectPoolManager objectPoolMng = null;
     private ScoreManager scoreMng = null;
     private AudioManager audioMng = null;
+    private EnemyManager enemyMng = null;
     private Cam cam = null;
 
     private Vector3 playerOriginPos;
@@ -23,10 +24,12 @@ public class GameManager : MonoBehaviour
         objectPoolMng = FindObjectOfType<ObjectPoolManager>();
         scoreMng = FindObjectOfType<ScoreManager>();
         audioMng = FindObjectOfType<AudioManager>();
+        enemyMng = FindObjectOfType<EnemyManager>();
         cam = FindObjectOfType<Cam>();
 
+        enemyMng.Init(objectPoolMng);
         playerMng.Init(walkableBlockMng, HandleGameOver);
-        walkableBlockMng.Init(objectPoolMng);
+        walkableBlockMng.Init(objectPoolMng, enemyMng.GenEnemy);
         uiMng.Init();
         particleMng.Init(objectPoolMng, playerMng.transform);
         scoreMng.Init(uiMng.UpdateScore);

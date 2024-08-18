@@ -1,59 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
 {
     [SerializeField]
     private int totalBlockCount = 10;
 
-    private Queue<IWalkableBlock> blockQueue;
+    private Queue<IWalkableBlock> blockQueue = null;
     private IBlockGenerator iBlockGenerator = null;
-    private IWalkableBlock iCurBlock;
+    private IWalkableBlock curBlock = null;
+    private Action<WalkableBlock> blockGenerateAction = null;
 
-    public void Init(ObjectPoolManager _poolManager)
+    public void Init(ObjectPoolManager _poolManager, Action<WalkableBlock> _blockGenerateAction)
     {
         blockQueue = new Queue<IWalkableBlock>();
         iBlockGenerator = GetComponent<IBlockGenerator>();
         iBlockGenerator.Init(_poolManager, CheckIsNextBlockCanGen);
-    }
-
-    public void StartBlockGenerate()
-    {
-        for (int i = 0; i < totalBlockCount; ++i)
-        {
-            blockQueue.Enqueue(iBlockGenerator.GenerateNextBlock());
-        }
-    }
-
-    public void ResetBlock()
-    {
-        iCurBlock?.Destroy();
-
-        while (blockQueue.Count > 0)
-        {
-            blockQueue.Dequeue().Destroy();
-        }
-        blockQueue.Clear();
-        iBlockGenerator.ResetBlock();
-        GenerateStartBlock();
-        StartBlockGenerate();
-    }
-
-
-    private bool CheckIsNextBlockCanGen(Vector2 _targetPos)
-    {
-        foreach(var block in blockQueue)
-        {
-            if (block.Position.Equals(_targetPos))
-                return false;
-        }
-
-        return true;
-    }
-
-    private void GenerateStartBlock()
-    {
-        iCurBlock = iBlockGenerator.GenerateStartBlock();
+        blockGenerateAction = _blockGenerateAction;
     }
 
     public bool CheckBlockExistence(Vector2 _position)
@@ -87,30 +51,65 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
 
     public EBlockType DequeueBlockAndGetBlockInterface()
     {
-        //if (isFirstStep)
-        //{
-        //    iCurBlock = blockQueue.Dequeue();
-        //    iCurBlock.OnPositioned();
-        //    isFirstStep = false;
-        //    return iCurBlock.BlockType;
-        //}
         if (blockQueue.Count < 1)
             return EBlockType.NONE;
 
-        iCurBlock.OnPositionChanged();
+        curBlock.OnPositionChanged();
 
-        blockQueue.Enqueue(iBlockGenerator.GenerateNextBlock());
-        iCurBlock = blockQueue.Dequeue();
-        iCurBlock.OnPositioned();
-        return iCurBlock.BlockType;
+        var block = iBlockGenerator.GenerateNextBlock();
+        blockQueue.Enqueue(block);
+        blockGenerateAction?.Invoke(block);
+        curBlock = blockQueue.Dequeue();
+        curBlock.OnPositioned();
+        return curBlock.BlockType;
     }
 
     public void DequeueBlock()
     {
-        //if (!isFirstStep)
-        //{
-        iCurBlock.OnPositionChanged();
-        iCurBlock = null;
-        //}
+        curBlock.OnPositionChanged();
+        curBlock = null;
     }
+
+    public void ResetBlock()
+    {
+        curBlock?.Destroy();
+
+        while (blockQueue.Count > 0)
+        {
+            blockQueue.Dequeue().Destroy();
+        }
+        blockQueue.Clear();
+        iBlockGenerator.ResetBlock();
+        GenerateStartBlock();
+        GenerateBlock();
+    }
+
+
+
+    private void GenerateStartBlock()
+    {
+        curBlock = iBlockGenerator.GenerateStartBlock();
+    }
+
+    private void GenerateBlock()
+    {
+        for (int i = 0; i < totalBlockCount; ++i)
+        {
+            var block = iBlockGenerator.GenerateNextBlock();
+            blockGenerateAction?.Invoke(block);
+            blockQueue.Enqueue(block);
+        }
+    }
+
+    private bool CheckIsNextBlockCanGen(Vector2 _targetPos)
+    {
+        foreach(var block in blockQueue)
+        {
+            if (block.Position.Equals(_targetPos))
+                return false;
+        }
+
+        return true;
+    }
+
 }

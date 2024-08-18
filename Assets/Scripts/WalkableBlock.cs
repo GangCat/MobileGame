@@ -8,9 +8,18 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     [SerializeField]
     private EBlockType blockType;
 
+    private EnemyController enemyController = null;
 
+    public Vector3 Forward => transform.forward;
     public Vector2 Position { get; private set; }
     public EBlockType BlockType => blockType;
+    public EnemyController EnemyController 
+    { 
+        set
+        {
+            enemyController = value;
+        } 
+    }
 
     private ObjectPoolManager poolManager;
 
@@ -38,6 +47,9 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
         // 플레이어가 블럭으로 이동할 때 블럭이 위아래로 잠깐 움직이는 효과
         // 블럭 위아래 이동
         StartCoroutine(WiggleCoroutine());
+        // 이때 적에게 신호
+        enemyController?.Die();
+        enemyController = null;
     }
 
     /// <summary>
@@ -46,6 +58,7 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     public void Destroy()
     {
         poolManager.ReturnObj(gameObject);
+        enemyController?.Die();
     }
 
     private IEnumerator WiggleCoroutine()
