@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+
+    private bool isMoveRight = true;         // 오른쪽으로 이동할지 여부
+
+    private float gravity = 40f;  // 중력
+
     private ObjectPoolManager poolMng = null;
+
     public void Init(WalkableBlock _block, ObjectPoolManager _poolMng)
     {
         transform.position = new Vector3(_block.Position.x, 0f, _block.Position.y);
@@ -16,8 +22,36 @@ public class EnemyController : MonoBehaviour
     public void Die()
     {
         //사망
-        poolMng.ReturnObj(gameObject);
+        StartCoroutine(MoveInParabola());
         Debug.Log("사망");
+    }
+
+
+
+    IEnumerator MoveInParabola()
+    {
+        float elapsedTime = 0f;
+        Vector3 moveVec = Vector3.zero;
+        float upVelocity = 5f;
+        float sideVelocity = 3f;
+
+        isMoveRight = Random.Range(0, 2) == 0;
+        
+        while (elapsedTime < 1f)
+        {
+            moveVec = Vector3.zero;
+
+            moveVec += (isMoveRight ? transform.right : -transform.right) * (sideVelocity * Time.deltaTime);
+            upVelocity -= gravity * Time.deltaTime;
+            moveVec += Vector3.up * (upVelocity * Time.deltaTime);
+
+
+            transform.position += moveVec;
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        poolMng.ReturnObj(gameObject);
     }
 
 }

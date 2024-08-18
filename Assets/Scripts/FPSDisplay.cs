@@ -10,8 +10,8 @@ public class FPSDisplay : MonoBehaviour
 
     private void Start()
     {
-        QualitySettings.vSyncCount = 0;  // VSync 끄기
-        Application.targetFrameRate = 60;
+        //QualitySettings.vSyncCount = 0;  // VSync 끄기
+        //Application.targetFrameRate = 60;
     }
 
     void Update()
