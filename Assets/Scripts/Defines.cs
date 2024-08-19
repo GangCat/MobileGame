@@ -19,6 +19,7 @@ public enum EBlockSFXType
     ON_NORMAL_BLOCK,
     ON_GOLD_BLOCK,
     ON_DIA_BLOCK,
+    ON_INVINCIBLE_BUFF_BLOCK,
     LENGTH
 }
 

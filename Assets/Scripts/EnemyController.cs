@@ -26,6 +26,11 @@ public class EnemyController : MonoBehaviour
         Debug.Log("사망");
     }
 
+    public void Return()
+    {
+        poolMng.ReturnObj(gameObject);
+    }
+
 
 
     IEnumerator MoveInParabola()

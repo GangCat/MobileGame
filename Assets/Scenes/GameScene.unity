@@ -2940,9 +2940,19 @@ MonoBehaviour:
     type: 3}
   sfxAudioClip:
   - {fileID: 8300000, guid: 61b07b2ba6033e84ca2f3db7bf894aaa, type: 3}
-  - {fileID: 8300000, guid: 0164201b603ca6c47adb08ca532618b7, type: 3}
-  - {fileID: 8300000, guid: f1b3ba8574a17e6498a377bb49b76ac0, type: 3}
+  - {fileID: 8300000, guid: ec072fa3d8314e443bda112b5ced57b5, type: 3}
+  - {fileID: 8300000, guid: 4c134134216cafd41ae53a04ef8c3e26, type: 3}
+  - {fileID: 8300000, guid: c46c20b120a10b24f9dd0142c30b82de, type: 3}
   countdownClip: {fileID: 8300000, guid: 8f4b52693587bb34d9578c4eeefce924, type: 3}
+  normalBlockSfxAudioClip:
+  - {fileID: 8300000, guid: 65115f30fd9c8644393b899b2d700d6f, type: 3}
+  - {fileID: 8300000, guid: 32b2946ab6de4524ea2d20382ab41524, type: 3}
+  - {fileID: 8300000, guid: 1c4ade3c126dfa24d878fb5ef6727195, type: 3}
+  - {fileID: 8300000, guid: 20e5caf9c44433b4e88b50d005a5270f, type: 3}
+  - {fileID: 8300000, guid: 03493fd58611f6f4e8bd68906a0a0e65, type: 3}
+  - {fileID: 8300000, guid: fa742b826c3f61c43b8123c06af923f1, type: 3}
+  - {fileID: 8300000, guid: 3e4923221835d094ead2c6914ad44436, type: 3}
+  - {fileID: 8300000, guid: ce3ae6e41a4311e4e8ff72042c5565e2, type: 3}
 --- !u!4 &1101726548
 Transform:
   m_ObjectHideFlags: 0

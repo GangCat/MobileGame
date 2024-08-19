@@ -32,7 +32,23 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
         poolManager = _poolManager;
 
         arrowTestMR = transform.GetChild(0).gameObject;
-        
+
+        switch (blockType)
+        {
+            case EBlockType.NORMAL:
+                GetComponent<Renderer>().material.color = Color.green;
+                break;
+            case EBlockType.DOUBLE_SCORE:
+                GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+            case EBlockType.TRIPLE_SCORE:
+                GetComponent<Renderer>().material.color = Color.cyan;
+                break;
+            case EBlockType.INVINCIBLE_BUFF:
+                GetComponent<Renderer>().material.color = Color.white;
+                break;
+        }
+
 
         StartCoroutine(nameof(AppearBlockCoroutine));
     }
@@ -58,7 +74,7 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     public void Destroy()
     {
         poolManager.ReturnObj(gameObject);
-        enemyController?.Die();
+        enemyController?.Return();
     }
 
     private IEnumerator WiggleCoroutine()

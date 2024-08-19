@@ -18,6 +18,8 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver
     private AudioClip[] sfxAudioClip = null;
     [SerializeField]
     private AudioClip countdownClip = null;
+    [SerializeField]
+    private AudioClip[] normalBlockSfxAudioClip = null;
 
     private float fadeoutTime = 2f;
     private float backgroundVolume = 1f;
@@ -75,6 +77,9 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver
             case EBlockType.TRIPLE_SCORE:
                 PlayBlockSFX(EBlockSFXType.ON_DIA_BLOCK);
                 break;
+            case EBlockType.INVINCIBLE_BUFF:
+                PlayBlockSFX(EBlockSFXType.ON_INVINCIBLE_BUFF_BLOCK);
+                break;
         }
 
     }
@@ -82,7 +87,12 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver
     private void PlayBlockSFX(EBlockSFXType _sfxType)
     {
         var audioSource = blockSfxAudioSrc[(int)_sfxType];
-        audioSource.clip = sfxAudioClip[(int)_sfxType];
+        if(_sfxType.Equals(EBlockSFXType.ON_NORMAL_BLOCK))
+        {
+            audioSource.clip = normalBlockSfxAudioClip[UnityEngine.Random.Range(0, normalBlockSfxAudioClip.Length)];
+        }
+        else
+            audioSource.clip = sfxAudioClip[(int)_sfxType];
         audioSource.Play();
     }
 

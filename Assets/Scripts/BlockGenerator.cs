@@ -105,55 +105,9 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         var walkableBlockGo = poolManager.GetObject(blockPrefabPath);
         WalkableBlock block = walkableBlockGo.GetComponent<WalkableBlock>();
 
-        // 머티리얼 로드 및 적용
-        string materialPath = GetMaterialPath(_blockType);
-        Material loadedMaterial = LoadMaterialSynchronously(materialPath);
-        if (loadedMaterial != null)
-        {
-            MeshRenderer _meshRenderer = walkableBlockGo.GetComponent<MeshRenderer>();
-            if (_meshRenderer != null)
-            {
-                _meshRenderer.material = loadedMaterial;
-            }
-        }
-
         block.Init(_position, _blockType, poolManager, curBlockDir);
 
         return block;
-    }
-
-    private string GetMaterialPath(EBlockType _blockType)
-    {
-        switch (_blockType)
-        {
-            case EBlockType.DOUBLE_SCORE:
-                return doubleScoreBlockMatPath;
-            case EBlockType.TRIPLE_SCORE:
-                return tripleScoreBlockMatPath;
-            case EBlockType.INVINCIBLE_BUFF:
-                return invincibleBlockMatPath;
-            default:
-                return normalBlockMatPath;
-        }
-    }
-
-    private Material LoadMaterialSynchronously(string _address)
-    {
-        // 비동기 핸들을 얻습니다.
-        AsyncOperationHandle<Material> _handle = Addressables.LoadAssetAsync<Material>(_address);
-
-        // 로드가 완료될 때까지 대기합니다.
-        _handle.WaitForCompletion();
-
-        if (_handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            return _handle.Result;
-        }
-        else
-        {
-            Debug.LogError($"Failed to load material: {_address}");
-            return null;
-        }
     }
 
     private void UpdateDirections()
