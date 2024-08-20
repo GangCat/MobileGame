@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField]
+    private HandTrail[] handTrailArr;
+
     private PlayerMovement movement;
     private PlayerInventory inventory;
     private PlayerHealth health;
@@ -38,6 +41,8 @@ public class PlayerManager : MonoBehaviour
         inventory.ResetPlayer();
         health.ResetPlayer();
         model.ResetModelForward();
+        foreach (var handTrail in handTrailArr)
+            handTrail.ResetPos();
     }
 
     public Vector3 getCurPos()

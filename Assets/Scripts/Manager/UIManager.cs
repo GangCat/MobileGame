@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     private CanvasResult canvasResult;
     [SerializeField]
     private CanvasLobby canvasLobby;
+    [SerializeField]
+    private CanvasGame canvasGame = null;
 
     public void Init()
     {
@@ -25,6 +27,18 @@ public class UIManager : MonoBehaviour
         canvasLobby.SetActive(true);
         gameUI.SetActive(false);
         canvasResult.SetActive(false);
+
+        canvasGame.Init();
+    }
+
+    public void StartSpeedLine()
+    {
+        canvasGame.StartSpeedLine();
+    }
+
+    public void FinishSpeedLine()
+    {
+        canvasGame.FinishSpeedLine();
     }
 
     public void UpdatePlayerHP(float _curHP)

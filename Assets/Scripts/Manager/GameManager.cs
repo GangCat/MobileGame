@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        QualitySettings.vSyncCount = 0;  // VSync 끄기
+        Application.targetFrameRate = 120;
+
         playerMng = FindObjectOfType<PlayerManager>();
         walkableBlockMng = FindObjectOfType<WalkableBlockManager>();
         uiMng = FindObjectOfType<UIManager>();
@@ -32,7 +35,7 @@ public class GameManager : MonoBehaviour
         walkableBlockMng.Init(objectPoolMng, enemyMng.GenEnemy);
         uiMng.Init();
         particleMng.Init(objectPoolMng, playerMng.transform);
-        scoreMng.Init(uiMng.UpdateScore);
+        scoreMng.Init(uiMng.UpdateScore, uiMng.StartSpeedLine, uiMng.FinishSpeedLine);
         audioMng.Init();
 
         playerOriginPos = playerMng.getCurPos();
