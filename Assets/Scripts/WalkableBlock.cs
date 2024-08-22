@@ -7,6 +7,8 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     private GameObject arrowTestMR;
     [SerializeField]
     private EBlockType blockType;
+    [SerializeField]
+    private Renderer myRenderer;
 
     private EnemyController enemyController = null;
 
@@ -33,21 +35,21 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
 
         arrowTestMR = transform.GetChild(0).gameObject;
 
-        switch (blockType)
-        {
-            case EBlockType.NORMAL:
-                GetComponent<Renderer>().material.color = Color.green;
-                break;
-            case EBlockType.DOUBLE_SCORE:
-                GetComponent<Renderer>().material.color = Color.yellow;
-                break;
-            case EBlockType.TRIPLE_SCORE:
-                GetComponent<Renderer>().material.color = Color.cyan;
-                break;
-            case EBlockType.INVINCIBLE_BUFF:
-                GetComponent<Renderer>().material.color = Color.white;
-                break;
-        }
+        //switch (blockType)
+        //{
+        //    case EBlockType.NORMAL:
+        //        GetComponent<Renderer>().material.color = Color.green;
+        //        break;
+        //    case EBlockType.DOUBLE_SCORE:
+        //        GetComponent<Renderer>().material.color = Color.yellow;
+        //        break;
+        //    case EBlockType.TRIPLE_SCORE:
+        //        GetComponent<Renderer>().material.color = Color.cyan;
+        //        break;
+        //    case EBlockType.INVINCIBLE_BUFF:
+        //        GetComponent<Renderer>().material.color = Color.white;
+        //        break;
+        //}
 
 
         StartCoroutine(nameof(AppearBlockCoroutine));
@@ -97,7 +99,7 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     {
         float wiggleTime = 0.2f;
         float elapsedTime = 0;
-        var mat = GetComponent<MeshRenderer>().material;
+        var mat = myRenderer.material;
         while (elapsedTime < wiggleTime)
         {
             elapsedTime += Time.deltaTime;
@@ -112,7 +114,7 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     {
         float wiggleTime = 0.2f;
         float elapsedTime = 0;
-        var mat = GetComponent<MeshRenderer>().material;
+        var mat = myRenderer.material;
         while (elapsedTime < wiggleTime)
         {
             elapsedTime += Time.deltaTime;

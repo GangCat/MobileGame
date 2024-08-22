@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 1e4e10408bed0b14c82c8643e37338a5
   m_SerializeEntries:
   - m_GUID: 48779b0181f89524a91b926f8c3d4b31
-    m_Address: WalkableBlock.prefab
+    m_Address: WalkableBlockOld.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -79,6 +79,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 17b11a7a6a214834d9b5c0e3ee837d69
     m_Address: Enemy.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24b794146ad25fa41944fa09ffd763c6
+    m_Address: WalkableBlock.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
