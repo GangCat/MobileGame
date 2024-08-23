@@ -51,6 +51,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private bool isRightBlocked = false;
     private bool isLeftBlocked = false;
 
+    private bool isTurned = false;
+
 
     // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
     // 그럼 블럭 있는지 확인하는 내용은 언제? 다음 방향 결정할 때.
@@ -134,7 +136,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         isLeftBlocked = false;
 
         // 이전에 설정된 방향으로 블럭 생성
-        newPosition = curBlockPosition + blockDirArr[0];
+        newPosition = curBlockPosition + blockDirArr[0] * 1.5f;
 
         // 블럭 타입 결정
         EBlockType blockType = ConfirmBlockType();
@@ -150,7 +152,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             int randomValue = random.Next(0, 100);
 
             // 정면 방향일 경우
-            if (randomValue < forwardProbability && !isFwdBlocked)
+            if (isTurned || randomValue < forwardProbability && !isFwdBlocked)
             {
                 // 리스트 확인
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[0]))
@@ -162,10 +164,12 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
                 isNextBlockPosConfirm = true;
                 forwardProbability -= 1;
                 sideProbability -= 0.5f;
+                isTurned = false;
             }
             // 좌측방향일 경우
             else if (randomValue < forwardProbability + sideProbability && !isLeftBlocked)
             {
+                isTurned = true;
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[1]))
                 {
                     isLeftBlocked = true;
@@ -177,6 +181,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             // 우측 방향일 경우
             else if (!isRightBlocked)
             {
+                isTurned = true;
                 if (!checkIsBlockCanGenFunc.Invoke(curBlockPosition + blockDirArr[2]))
                 {
                     isRightBlocked = true;

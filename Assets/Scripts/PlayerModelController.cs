@@ -7,8 +7,6 @@ public class PlayerModelController : MonoBehaviour
 {
     private Animator animator = null;
 
-    private int blockCnt = 0;
-
     private StringBuilder sb = null;
 
     private int prevActionNum = -1;

@@ -11,16 +11,23 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
     private Action onScoreMultiplyStart = null;
     private Action onScoreMultiplyFinish = null;
 
-    private int curBlockCombo = 0; // 현재까지 블록의 개수
     private int curScore = 0; // 현재까지 총 점수
-    private int scoreFactor = 1;
 
-    private bool isScoreMultiplied = false;
     private WaitForSeconds waitScoreMultiplierTime = null;
 
     private int curMultiplier = 1;
 
     public int CurScore => curScore;
+
+    private float startTime = 0f;
+
+    private SResult sResult;
+
+    private int actionCount = 0;
+    private float APS = 0f;
+    private float bestAPS = 0f;
+    private float apsStartTime = 0f;
+
 
     public void Init(Action<int> _onUpdateScoreAction, Action _onScoreMultiplyStart, Action _onScoreMultiplyFinish)
     {
@@ -29,14 +36,30 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
         onScoreMultiplyStart = _onScoreMultiplyStart;
         onScoreMultiplyFinish = _onScoreMultiplyFinish;
         curMultiplier = 1;
+        sResult = new SResult();
+    }
+
+    public void StartGame()
+    {
+        startTime = Time.time;
+        StartCoroutine(nameof(CalcAPSCoroutine));
+    }
+
+    public SResult CalcResult()
+    {
+        sResult.time = Time.time - startTime;
+        sResult.score = curScore;
+        sResult.bestAPS = this.bestAPS;
+        StopCoroutine(nameof(CalcAPSCoroutine));
+        return sResult;
     }
 
     public void ResetScore()
     {
-        curBlockCombo = 0;
         curScore = 0;
         onUpdateScoreAction?.Invoke(curScore);
         curMultiplier = 1;
+        bestAPS = 0;
     }
 
     public void OnNotify(in EBlockType _blockType)
@@ -62,12 +85,53 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
 
     private IEnumerator ScoreMultiplyTimerCoroutine(int _multiplierVal)
     {
-        isScoreMultiplied = true;
         curMultiplier = _multiplierVal;
         onScoreMultiplyStart?.Invoke();
         yield return waitScoreMultiplierTime;
-        isScoreMultiplied = false;
         curMultiplier = 1;
         onScoreMultiplyFinish?.Invoke();
     }
+
+    private IEnumerator CalcAPSCoroutine()
+    {
+        apsStartTime = Time.time;
+
+        while (true)
+        {
+            if (Input.anyKeyDown || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || IsTouchInputDetected())
+                actionCount++;
+
+            CalculateAPS();
+            yield return null;
+        }
+    }
+
+    private bool IsTouchInputDetected()
+    {
+        // 모바일 터치가 발생했는지 확인합니다.
+        return Input.touchCount > 0;
+    }
+
+    private void CalculateAPS()
+    {
+        float elapsedTime = Time.time - apsStartTime;
+
+        if (elapsedTime == 0 || actionCount < 0)
+            return;
+
+        APS = actionCount / elapsedTime;
+
+        if (elapsedTime < 1f)
+            bestAPS = APS;
+
+        if (APS > bestAPS)
+            bestAPS = APS;
+    }
+}
+
+public struct SResult
+{
+    public int score;
+    public float time;
+    public float bestAPS;
 }

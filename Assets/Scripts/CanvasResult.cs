@@ -1,26 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanvasResult : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI blockCountText;
+    private Text scoreText;
     [SerializeField]
-    private TextMeshProUGUI goldCountText;
+    private Text totalTimeText;
     [SerializeField]
-    private TextMeshProUGUI diamondCountText;
+    private Text bestAPSText;
 
-    public void SetActive(bool _active)
+    public void Init()
     {
-        gameObject.SetActive(_active);
+        gameObject.SetActive(false);
     }
 
-    public void SetCount(int _blockCount, int _goldCount, int _diamondCount)
+    public void EnterLobby()
     {
-        blockCountText.text = _blockCount.ToString();
-        goldCountText.text = _goldCount.ToString();
-        diamondCountText.text = _diamondCount.ToString();
+        gameObject.SetActive(false);
+    }
+
+    public void GameOver(SResult _sResult)
+    {
+        gameObject.SetActive(true);
+        SetResult(_sResult);
+    }
+
+    public void SetResult(SResult _sResult)
+    {
+        float time = _sResult.time;
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+
+        scoreText.text = _sResult.score.ToString();
+        totalTimeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        bestAPSText.text = _sResult.bestAPS.ToString("F3");
     }
 }

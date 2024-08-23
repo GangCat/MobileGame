@@ -17,6 +17,12 @@ public class SpeedLineImage : MonoBehaviour
         image.enabled = false;
     }
 
+    public void GameOver()
+    {
+        image.enabled = false;
+        StopCoroutine(nameof(ShowSpeedLineCoroutine));
+    }
+
 
     public void ShowSpeedLine()
     {

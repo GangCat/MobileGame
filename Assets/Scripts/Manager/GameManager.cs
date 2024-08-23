@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleGameOver(int _goldCnt, int _diaCnt)
     {
-        uiMng.GameOver(_goldCnt, _diaCnt, scoreMng.CurScore);
+        uiMng.GameOver(scoreMng.CalcResult());
         Debug.Log("Game Over: Handling game over in GameManager.");
         // 게임 종료 처리 로직
     }
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         uiMng.StartGame();
         playerMng.StartGame();
+        scoreMng.StartGame();
     }
 
     private void HandleBlockProcessed(EBlockType _blockType)

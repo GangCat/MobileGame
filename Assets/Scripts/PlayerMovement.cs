@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
 {
+    [SerializeField]
+    private float moveOffset = 0f;
+
     private Vector2 prevDir = Vector2.zero;
     private Vector2 curDir = Vector2.zero; // 현재 방향을 저장하는 변수
 
@@ -17,6 +20,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
     public bool IsGameStop { get; set; } = true;
 
     private List<IPlayerMoveObserver> observerList = new List<IPlayerMoveObserver>();
+
 
     public void Init(IWalkableBlockManager _iBlockManager, Action _onGameOverAction, Action<EBlockType> _onInventoryIncreaseAction, Action<Vector2> _updateModelForwardAction)
     {
@@ -88,25 +92,25 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
     // 방향 버튼이 눌렸을 때 호출되는 메서드
     public void OnUpButtonPressed()
     {
-        curDir = Vector2.up;
+        curDir = Vector2.up * moveOffset;
         HandleMovement();
     }
 
     public void OnDownButtonPressed()
     {
-        curDir = Vector2.down;
+        curDir = Vector2.down * moveOffset;
         HandleMovement();
     }
 
     public void OnLeftButtonPressed()
     {
-        curDir = Vector2.left;
+        curDir = Vector2.left * moveOffset;
         HandleMovement();
     }
 
     public void OnRightButtonPressed()
     {
-        curDir = Vector2.right;
+        curDir = Vector2.right * moveOffset;
         HandleMovement();
     }
 

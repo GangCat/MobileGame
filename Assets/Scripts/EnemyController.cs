@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     private float gravity = 40f;  // 중력
 
     private ObjectPoolManager poolMng = null;
+    private EnemyModelController enemyModelCtrl = null;
 
     public void Init(WalkableBlock _block, ObjectPoolManager _poolMng)
     {
@@ -17,13 +18,15 @@ public class EnemyController : MonoBehaviour
         transform.forward = _block.Forward;
         poolMng = _poolMng;
         _block.EnemyController = this;
+        enemyModelCtrl = GetComponent<EnemyModelController>();
     }
 
     public void Die()
     {
         //사망
         StartCoroutine(MoveInParabola());
-        Debug.Log("사망");
+        enemyModelCtrl.PlayDeath();
+        Debug.Log("적 사망");
     }
 
     public void Return()

@@ -9,8 +9,10 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/[Aa]ssets/[Bb]OXOPHOBIC/
-/[Aa]ssets/[Bb]OXOPHOBIC.meta
+/[Aa]ssets/[Dd]ownloadPackage/[Bb]OXOPHOBIC/
+/[Aa]ssets/[Dd]ownloadPackage/[Bb]OXOPHOBIC.meta
+/[Aa]ssets/[Dd]ownloadPackage/[Ss]limUI/
+/[Aa]ssets/[Dd]ownloadPackage/[Ss]limUI.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

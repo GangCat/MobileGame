@@ -18,7 +18,6 @@ public class UI : MonoBehaviour
     [SerializeField]
     private Slider slider = null;
 
-    private uint comboCount = 0;
     private float playerHp = 200;
     private float playerMaxHp = 200;
 
