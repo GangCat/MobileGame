@@ -1,12 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CanvasLobby : MonoBehaviour
 {
-    public void Init()
+    [SerializeField]
+    private ButtonBase startBtn = null;
+
+    public void Init(Action _startBtnAction)
     {
         gameObject.SetActive(true);
+        startBtn.Init();
+
+        startBtn.SetOnClickAction(_startBtnAction);
     }
 
     public void EnterLobby()

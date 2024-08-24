@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
 {
@@ -27,6 +28,8 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
     private float APS = 0f;
     private float bestAPS = 0f;
     private float apsStartTime = 0f;
+
+    private bool isMoved = false;
 
 
     public void Init(Action<int> _onUpdateScoreAction, Action _onScoreMultiplyStart, Action _onScoreMultiplyFinish)
@@ -78,6 +81,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
                 break;
         }
 
+        isMoved = true;
         curScore += curMultiplier;
         //++curBlockCombo;
         onUpdateScoreAction?.Invoke(curScore);
@@ -98,8 +102,11 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
 
         while (true)
         {
-            if (Input.anyKeyDown || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || IsTouchInputDetected())
+            if (isMoved is true)
+            {
                 actionCount++;
+                isMoved = false;
+            }
 
             CalculateAPS();
             yield return null;

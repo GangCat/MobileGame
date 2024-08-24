@@ -7,6 +7,12 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
     private Transform playerTr = null;
     [SerializeField]
     private AnimationCurve camFollowCurve;
+    [SerializeField]
+    private Vector3 lobbyCamPos = Vector3.zero;
+    [SerializeField]
+    private Vector3 lobbyCamEulerAngles = Vector3.zero;
+    [SerializeField]
+    private Vector3 gameCamEulerAngles = Vector3.zero;
 
     private Vector3 camOffset = Vector3.zero;
     private Coroutine followPlayerSmoothCoroutine = null;
@@ -14,27 +20,40 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
     private void Start()
     {
         camOffset = transform.position - playerTr.position;
+
+        transform.position = lobbyCamPos;
+        transform.eulerAngles = lobbyCamEulerAngles;
     }
 
-    public void ResetCamPos(in Vector3 _playerOriginPos)
+    public void MoveCamGamePos(in Vector3 _playerOriginPos)
     {
-        if (followPlayerSmoothCoroutine is not null)
+        // 2초만에 러프로 이동
+
+        StartCoroutine(nameof(MoveCamToGamePosCoroutine));
+
+    }
+
+    public void ResetCamPos()
+    {
+        if (followPlayerSmoothCoroutine != null)
         {
             StopCoroutine(followPlayerSmoothCoroutine);
         }
-        transform.position = _playerOriginPos + camOffset;
+        transform.position = lobbyCamPos;
+        transform.eulerAngles = lobbyCamEulerAngles;
+        //transform.position = _playerOriginPos + camOffset;
     }
 
     public void OnNotify(in EBlockType _blockType)
     {
-        if (followPlayerSmoothCoroutine is not null)
+        if (followPlayerSmoothCoroutine != null)
         {
             StopCoroutine(followPlayerSmoothCoroutine);
         }
-        followPlayerSmoothCoroutine = StartCoroutine(nameof(CamFollowPlayerSmoothCoroutine));
+        followPlayerSmoothCoroutine = StartCoroutine(nameof(FollowPlayerSmoothCoroutine));
     }
 
-    private IEnumerator CamFollowPlayerSmoothCoroutine()
+    private IEnumerator FollowPlayerSmoothCoroutine()
     {
         float elapsedTime = 0f;
         Vector3 originPos = transform.position;
@@ -49,5 +68,20 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
             yield return null;
         }
         transform.position = targetPos;
+    }
+
+    private IEnumerator MoveCamToGamePosCoroutine()
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime < 2)
+        {
+            transform.position = Vector3.Lerp(transform.position, playerTr.position + camOffset, 0.05f);
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, gameCamEulerAngles, 0.05f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = playerTr.position + camOffset;
+        transform.eulerAngles = gameCamEulerAngles;
     }
 }

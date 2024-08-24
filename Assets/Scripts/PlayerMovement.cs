@@ -89,6 +89,25 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
         }
     }
 
+    public void OnArrowButtonpressed(EArrowButtonType _arrowType)
+    {
+        switch (_arrowType)
+        {
+            case EArrowButtonType.UP:
+                OnUpButtonPressed();
+                break;
+            case EArrowButtonType.LEFT:
+                OnLeftButtonPressed();
+                break;
+            case EArrowButtonType.RIGHT:
+                OnRightButtonPressed();
+                break;
+            case EArrowButtonType.DOWN:
+                OnDownButtonPressed();
+                break;
+        }
+    }
+
     // 방향 버튼이 눌렸을 때 호출되는 메서드
     public void OnUpButtonPressed()
     {

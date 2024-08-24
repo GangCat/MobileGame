@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         enemyMng.Init(objectPoolMng);
         playerMng.Init(walkableBlockMng, HandleGameOver);
         walkableBlockMng.Init(objectPoolMng, enemyMng.GenEnemy);
-        uiMng.Init();
+        uiMng.Init(StartGameCountdown, CloseResultAndGoLobby);
         particleMng.Init(objectPoolMng, playerMng.transform);
         scoreMng.Init(uiMng.UpdateScore, uiMng.StartSpeedLine, uiMng.FinishSpeedLine);
         audioMng.Init();
@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
         playerMng.RegisterPlayerMoveObserver(cam);
 
         audioMng.PlayMenuBackgroundMusic();
+
+        uiMng.RegisterArrowClickObserver(playerMng);
     }
 
     private void Update()
@@ -72,6 +74,8 @@ public class GameManager : MonoBehaviour
         //playerManager.ResetPlayer(playerOriginPos);
         //walkableBlockManager.ResetBlock();
 
+
+        cam.MoveCamGamePos(playerOriginPos);
         uiMng.ShowGameUI();
         StartCoroutine(CountdownCoroutine());
     }
@@ -112,6 +116,6 @@ public class GameManager : MonoBehaviour
         scoreMng.ResetScore();
         walkableBlockMng.ResetBlock();
         audioMng.PlayMenuBackgroundMusic();
-        cam.ResetCamPos(playerOriginPos);
+        cam.ResetCamPos();
     }
 }

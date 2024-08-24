@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,14 +17,17 @@ public class UIManager : MonoBehaviour
     private CanvasLobby canvasLobby;
     [SerializeField]
     private CanvasGame canvasGame = null;
+    [SerializeField]
+    private CanvasFade canvasFade = null;
 
-    public void Init()
+    public void Init(Action _StartGameAction, Action _closeResultAction)
     {
         hpSlider.value = 100;
         scoreText.text = "0";
-        canvasLobby.Init();
-        canvasResult.Init();
+        canvasLobby.Init(_StartGameAction);
+        canvasResult.Init(_closeResultAction);
         canvasGame.Init();
+        canvasFade.Init();
     }
 
     public void Countdown(int _count)
@@ -50,6 +54,10 @@ public class UIManager : MonoBehaviour
         canvasGame.StartGame();
     }
 
+    public void RegisterArrowClickObserver(IArrowButtonClickObserver _observer)
+    {
+        canvasGame.RegisterObserver(_observer);
+    }
 
 
     public void StartSpeedLine()
@@ -85,8 +93,16 @@ public class UIManager : MonoBehaviour
 
     public void EnterLobby()
     {
+        //canvasFade.FadeOut();
+        // 화면이 어두워지고
+
+        // UI나오고
+        // 게임 로직초기화되고
         canvasResult.EnterLobby();
         canvasLobby.EnterLobby();
+
+        // 화면이 밝아짐
+
     }
 
 }

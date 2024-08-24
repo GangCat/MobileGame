@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,14 @@ public class CanvasResult : MonoBehaviour
     [SerializeField]
     private Text bestAPSText;
 
-    public void Init()
+    [SerializeField]
+    private ButtonBase closeBtn = null;
+
+    public void Init(Action _closeResultAction)
     {
         gameObject.SetActive(false);
+        closeBtn.Init();
+        closeBtn.SetOnClickAction(_closeResultAction);
     }
 
     public void EnterLobby()

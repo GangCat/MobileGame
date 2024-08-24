@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver
 {
     [SerializeField]
     private ModelPartTrail[] modelPartTrailArr;
@@ -67,5 +67,10 @@ public class PlayerManager : MonoBehaviour
         movement.IsGameStop = true;
         health.IsGameStop = true;
         gameOverAction?.Invoke(inventory.GetGoldCount(), inventory.GetDiamondCount());
+    }
+
+    public void OnNotify(in EArrowButtonType _arrowType)
+    {
+        movement.OnArrowButtonpressed(_arrowType);
     }
 }

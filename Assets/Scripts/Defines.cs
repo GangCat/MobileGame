@@ -7,6 +7,15 @@ public enum EBlockType
     INVINCIBLE_BUFF // 체력 잠시동안 무한
 }
 
+public enum EArrowButtonType
+{
+    NONE,
+    UP,
+    LEFT,
+    RIGHT,
+    DOWN
+}
+
 public enum EParticleType
 {
     GREEN,
