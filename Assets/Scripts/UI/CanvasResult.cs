@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasResult : MonoBehaviour
+public class CanvasResult : MonoBehaviour, IFadeOutFinishObserver
 {
     [SerializeField]
     private Text scoreText;
@@ -43,5 +43,10 @@ public class CanvasResult : MonoBehaviour
         scoreText.text = _sResult.score.ToString();
         totalTimeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         bestAPSText.text = _sResult.bestAPS.ToString("F3");
+    }
+
+    public void OnNotify()
+    {
+        EnterLobby();
     }
 }

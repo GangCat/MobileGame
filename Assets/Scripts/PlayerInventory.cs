@@ -11,7 +11,7 @@ public class PlayerInventory : MonoBehaviour
         diamondCount = 0;
     }
 
-    public void ResetPlayer()
+    public void ResetPlayerInventory()
     {
         goldCount = 0;
         diamondCount = 0;

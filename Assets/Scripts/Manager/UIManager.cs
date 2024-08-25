@@ -20,14 +20,17 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private CanvasFade canvasFade = null;
 
-    public void Init(Action _StartGameAction, Action _closeResultAction)
+    public void Init(Action _StartGameAction)
     {
         hpSlider.value = 100;
         scoreText.text = "0";
         canvasLobby.Init(_StartGameAction);
-        canvasResult.Init(_closeResultAction);
+        canvasResult.Init(canvasFade.FadeOut);
         canvasGame.Init();
         canvasFade.Init();
+
+        RegisterFadeFinishObserver(canvasLobby);
+        RegisterFadeFinishObserver(canvasResult);
     }
 
     public void Countdown(int _count)
@@ -59,6 +62,11 @@ public class UIManager : MonoBehaviour
         canvasGame.RegisterObserver(_observer);
     }
 
+    public void RegisterFadeFinishObserver(IFadeOutFinishObserver _observer)
+    {
+        canvasFade.RegisterObserver(_observer);
+    }
+
 
     public void StartSpeedLine()
     {
@@ -80,29 +88,10 @@ public class UIManager : MonoBehaviour
         canvasGame.UpdateScore(_score);
     }
 
-
-
-
-
-
     public void GameOver(SResult _sResult)
     {
         canvasResult.GameOver(_sResult);
         canvasGame.GameOver();
-    }
-
-    public void EnterLobby()
-    {
-        //canvasFade.FadeOut();
-        // 화면이 어두워지고
-
-        // UI나오고
-        // 게임 로직초기화되고
-        canvasResult.EnterLobby();
-        canvasLobby.EnterLobby();
-
-        // 화면이 밝아짐
-
     }
 
 }

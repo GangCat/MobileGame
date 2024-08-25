@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
     private List<IPlayerMoveObserver> observerList = new List<IPlayerMoveObserver>();
 
 
+    private Vector3 playerOriginPos = Vector3.zero;
+
+
     public void Init(IWalkableBlockManager _iBlockManager, Action _onGameOverAction, Action<EBlockType> _onInventoryIncreaseAction, Action<Vector2> _updateModelForwardAction)
     {
         prevDir = Vector2.zero;
@@ -30,11 +33,13 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
         onGameOverAction = _onGameOverAction;
         updateModelForwardAction = _updateModelForwardAction;
         onInventoryIncreaseAction = _onInventoryIncreaseAction;
+
+        playerOriginPos = transform.position;
     }
 
-    public void ResetPlayer(Vector3 _originPos)
+    public void ResetPlayer()
     {
-        transform.position = _originPos;
+        transform.position = playerOriginPos;
         prevDir = Vector2.zero;
         curDir = Vector2.zero;
     }

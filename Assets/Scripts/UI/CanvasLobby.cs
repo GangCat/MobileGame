@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanvasLobby : MonoBehaviour
+public class CanvasLobby : MonoBehaviour, IFadeOutFinishObserver
 {
     [SerializeField]
     private ButtonBase startBtn = null;
@@ -24,5 +24,10 @@ public class CanvasLobby : MonoBehaviour
     public void ShowGameUI()
     {
         gameObject.SetActive(false);
+    }
+
+    public void OnNotify()
+    {
+        EnterLobby();
     }
 }

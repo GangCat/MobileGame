@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     private EnemyManager enemyMng = null;
     private Cam cam = null;
 
-    private Vector3 playerOriginPos;
-
     private void Start()
     {
         QualitySettings.vSyncCount = 0;  // VSync 끄기
@@ -33,14 +31,12 @@ public class GameManager : MonoBehaviour
         enemyMng.Init(objectPoolMng);
         playerMng.Init(walkableBlockMng, HandleGameOver);
         walkableBlockMng.Init(objectPoolMng, enemyMng.GenEnemy);
-        uiMng.Init(StartGameCountdown, CloseResultAndGoLobby);
+        uiMng.Init(StartGameCountdown);
         particleMng.Init(objectPoolMng, playerMng.transform);
         scoreMng.Init(uiMng.UpdateScore, uiMng.StartSpeedLine, uiMng.FinishSpeedLine);
         audioMng.Init();
 
-        playerOriginPos = playerMng.getCurPos();
-
-        playerMng.ResetPlayer(playerOriginPos);
+        playerMng.ResetPlayer();
         walkableBlockMng.ResetBlock();
 
         playerMng.RegisterPlayerMoveObserver(particleMng);
@@ -51,6 +47,12 @@ public class GameManager : MonoBehaviour
         audioMng.PlayMenuBackgroundMusic();
 
         uiMng.RegisterArrowClickObserver(playerMng);
+
+        uiMng.RegisterFadeFinishObserver(playerMng);
+        uiMng.RegisterFadeFinishObserver(scoreMng);
+        uiMng.RegisterFadeFinishObserver(walkableBlockMng);
+        uiMng.RegisterFadeFinishObserver(audioMng);
+        uiMng.RegisterFadeFinishObserver(cam);
     }
 
     private void Update()
@@ -73,9 +75,7 @@ public class GameManager : MonoBehaviour
     {
         //playerManager.ResetPlayer(playerOriginPos);
         //walkableBlockManager.ResetBlock();
-
-
-        cam.MoveCamGamePos(playerOriginPos);
+        cam.MoveCamGamePos();
         uiMng.ShowGameUI();
         StartCoroutine(CountdownCoroutine());
     }
@@ -104,18 +104,5 @@ public class GameManager : MonoBehaviour
     private void HandleBlockProcessed(EBlockType _blockType)
     {
         // 블럭 타입에 따른 추가 로직
-    }
-
-    /// <summary>
-    /// 결과창 닫는 순간 호출되는 함수들.
-    /// </summary>
-    public void CloseResultAndGoLobby()
-    {
-        uiMng.EnterLobby();
-        playerMng.ResetPlayer(playerOriginPos);
-        scoreMng.ResetScore();
-        walkableBlockMng.ResetBlock();
-        audioMng.PlayMenuBackgroundMusic();
-        cam.ResetCamPos();
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver
+public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutFinishObserver
 {
     [SerializeField]
     private ModelPartTrail[] modelPartTrailArr;
@@ -35,10 +35,10 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver
         movement.RegisterObserver(_observer);
     }
 
-    public void ResetPlayer(Vector3 _originPos)
+    public void ResetPlayer()
     {
-        movement.ResetPlayer(_originPos);
-        inventory.ResetPlayer();
+        movement.ResetPlayer();
+        inventory.ResetPlayerInventory();
         health.ResetPlayer();
         model.ResetModelForward();
         foreach (var modelPartTrail in modelPartTrailArr)
@@ -72,5 +72,10 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver
     public void OnNotify(in EArrowButtonType _arrowType)
     {
         movement.OnArrowButtonpressed(_arrowType);
+    }
+
+    public void OnNotify()
+    {
+        ResetPlayer();
     }
 }

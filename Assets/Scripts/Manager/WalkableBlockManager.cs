@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
+public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeOutFinishObserver
 {
     [SerializeField]
     private int totalBlockCount = 10;
@@ -112,4 +112,8 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager
         return true;
     }
 
+    public void OnNotify()
+    {
+        ResetBlock();
+    }
 }

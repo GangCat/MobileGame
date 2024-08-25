@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
+public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
 {
     [SerializeField]
     private float ScoreMultiplierTime = 5f;
@@ -133,6 +133,11 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver
 
         if (APS > bestAPS)
             bestAPS = APS;
+    }
+
+    public void OnNotify()
+    {
+        ResetScore();
     }
 }
 

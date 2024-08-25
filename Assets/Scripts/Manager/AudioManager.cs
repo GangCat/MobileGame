@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IPlayerMoveObserver
+public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
 {
     [SerializeField]
     private AudioSource backgroundAudioSrc = null;
@@ -114,5 +114,10 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver
         }
 
         backgroundAudioSrc.Stop();
+    }
+
+    public void OnNotify()
+    {
+        PlayMenuBackgroundMusic();
     }
 }

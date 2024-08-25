@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Cam : MonoBehaviour, IPlayerMoveObserver
+public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
 {
     [SerializeField]
     private Transform playerTr = null;
@@ -25,10 +25,9 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
         transform.eulerAngles = lobbyCamEulerAngles;
     }
 
-    public void MoveCamGamePos(in Vector3 _playerOriginPos)
+    public void MoveCamGamePos()
     {
         // 2초만에 러프로 이동
-
         StartCoroutine(nameof(MoveCamToGamePosCoroutine));
 
     }
@@ -41,7 +40,6 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
         }
         transform.position = lobbyCamPos;
         transform.eulerAngles = lobbyCamEulerAngles;
-        //transform.position = _playerOriginPos + camOffset;
     }
 
     public void OnNotify(in EBlockType _blockType)
@@ -83,5 +81,10 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver
 
         transform.position = playerTr.position + camOffset;
         transform.eulerAngles = gameCamEulerAngles;
+    }
+
+    public void OnNotify()
+    {
+        ResetCamPos();
     }
 }
