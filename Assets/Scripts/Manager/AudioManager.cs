@@ -77,7 +77,7 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
             case EBlockType.TRIPLE_SCORE:
                 PlayBlockSFX(EBlockSFXType.ON_DIA_BLOCK);
                 break;
-            case EBlockType.INVINCIBLE_BUFF:
+            case EBlockType.FEVER_BUFF:
                 PlayBlockSFX(EBlockSFXType.ON_INVINCIBLE_BUFF_BLOCK);
                 break;
         }

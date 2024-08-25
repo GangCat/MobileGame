@@ -116,4 +116,9 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
     {
         ResetBlock();
     }
+
+    public Vector3 GetNextBlockDir()
+    {
+        return curBlock.Forward;
+    }
 }

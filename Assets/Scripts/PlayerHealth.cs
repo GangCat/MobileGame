@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
 {
     [SerializeField]
-    private float _invincibleTime = 10f;
+    private float feverTime = 10f;
 
     private float maxHP;         // 최대 체력
     private float curHP;     // 현재 체력
@@ -14,9 +14,9 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
     private float baseDecreaseRate;  // 초기 체력 감소 속도
     private Action onGameOverAction;
 
-    private bool isPlayerIsInvincible = false;
+    private bool isFeverTime = false;
 
-    private WaitForSeconds waitBuffTime = null;
+    private WaitForSeconds waitFeverTime = null;
 
 
     public bool IsGameStop { get; set; } = true;
@@ -30,17 +30,17 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
         decreaseFactor = _decreaseFactor;
         blocksTraveled = 0;
         onGameOverAction = _onGameOverAction;
-        isPlayerIsInvincible = false;
+        isFeverTime = false;
 
-        waitBuffTime = new WaitForSeconds(_invincibleTime);
+        waitFeverTime = new WaitForSeconds(feverTime);
     }
 
     public void ResetPlayer()
     {
         RecoverHP();
-        StopCoroutine(nameof(InvincibleTimer));
+        StopCoroutine(nameof(StartFeverTimerCoroutine));
 
-        isPlayerIsInvincible = false;
+        isFeverTime = false;
         blocksTraveled = 0;
     }
 
@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
         if (IsGameStop)
             return curHP;
 
-        if (isPlayerIsInvincible)
+        if (isFeverTime)
             return curHP;
 
         // 이동한 블럭 수에 따라 감소 계수 증가
@@ -88,17 +88,17 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
     public void OnNotify(in EBlockType _blockType)
     {
         // 해당 블럭이 무적블럭일 경우 타이머 작동
-        if (_blockType.Equals(EBlockType.INVINCIBLE_BUFF))
-            StartCoroutine(nameof(InvincibleTimer));
+        if (_blockType.Equals(EBlockType.FEVER_BUFF))
+            StartCoroutine(nameof(StartFeverTimerCoroutine));
 
         //이동한 블럭 수를 증가
         ++blocksTraveled;
     }
 
-    private IEnumerator InvincibleTimer()
+    private IEnumerator StartFeverTimerCoroutine()
     {
-        isPlayerIsInvincible = true;
-        yield return waitBuffTime;
-        isPlayerIsInvincible = false;
+        isFeverTime = true;
+        yield return waitFeverTime;
+        isFeverTime = false;
     }
 }

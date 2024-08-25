@@ -9,20 +9,24 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
 
     private Vector2 prevDir = Vector2.zero;
     private Vector2 curDir = Vector2.zero; // 현재 방향을 저장하는 변수
+    private Vector3 playerOriginPos = Vector3.zero; // 플레이어의 처음 위치 저장
 
     private Action onGameOverAction = null; // 게임 종료를 알리는 액션
     private Action<EBlockType> onInventoryIncreaseAction = null; // 도착한 블럭의 타입에 따라 재화를 상승시키는 액션.
-    private Action<Vector2> updateModelForwardAction = null;
+    private Action<Vector2> updateModelForwardAction = null; // 모델의 정면 방향을 알려주는 액션
 
     private IWalkableBlockManager iBlockManager = null;
+
+    private List<IPlayerMoveObserver> observerList = new List<IPlayerMoveObserver>();
+
+    [SerializeField]
+    private bool isFeverTime = false;
+
+
 
     public event Action OnBlockProcessed; // 블럭을 한 칸 이동할때마다 호출할 이벤트
     public bool IsGameStop { get; set; } = true;
 
-    private List<IPlayerMoveObserver> observerList = new List<IPlayerMoveObserver>();
-
-
-    private Vector3 playerOriginPos = Vector3.zero;
 
 
     public void Init(IWalkableBlockManager _iBlockManager, Action _onGameOverAction, Action<EBlockType> _onInventoryIncreaseAction, Action<Vector2> _updateModelForwardAction)
@@ -63,6 +67,12 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
             prevDir = curDir;
             updateModelForwardAction?.Invoke(curDir);
             NotifyObservers(curBlockType);
+
+            if (curBlockType.Equals(EBlockType.FEVER_BUFF))
+            {
+                isFeverTime = true;
+                Debug.Log("피버타임");
+            }
         }
         else
         {
@@ -71,6 +81,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
             Debug.Log("Game Over: No block in the intended direction.");
             onGameOverAction?.Invoke(); // 게임 종료를 알림
         }
+
+        
     }
 
     private void Update()
@@ -96,6 +108,21 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
 
     public void OnArrowButtonpressed(EArrowButtonType _arrowType)
     {
+        if (isFeverTime)
+        {
+            // 무조건 다음 블럭 방향으로 이동
+            Vector3 nextDir = iBlockManager.GetNextBlockDir();
+            if(nextDir == Vector3.forward)
+                OnUpButtonPressed();
+            else if(nextDir == Vector3.right)
+                OnRightButtonPressed();
+            else if(nextDir == Vector3.left)
+                OnLeftButtonPressed();
+            else
+                OnDownButtonPressed();
+
+            return;
+        }
         switch (_arrowType)
         {
             case EArrowButtonType.UP:

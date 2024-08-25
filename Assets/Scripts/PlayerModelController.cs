@@ -31,21 +31,6 @@ public class PlayerModelController : MonoBehaviour
         animator.Play(sb.ToString());
 
         sb.Length -= 1;
-
-
-
-        //++blockCnt;
-        //if (blockCnt % 2 == 0)
-        //    animator.Play("Punch1");
-        //else
-        //    animator.Play("Punch2");
-
-        //if(blockCnt > 4)
-        //{
-        //    animator.SetTrigger("DoBounce");
-        //    animator.SetInteger("RandomAnim", Random.Range(0, 3));
-        //    blockCnt = 0;
-        //}
     }
 
     public void ResetModelForward()

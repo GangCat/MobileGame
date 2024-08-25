@@ -4,7 +4,7 @@ public enum EBlockType
     NORMAL,
     DOUBLE_SCORE, // 10초간 더블스코어
     TRIPLE_SCORE, // 10초간 트리플스코어
-    INVINCIBLE_BUFF // 체력 잠시동안 무한
+    FEVER_BUFF // 밟으면 일정 시간동안 무적, 피버타임
 }
 
 public enum EArrowButtonType

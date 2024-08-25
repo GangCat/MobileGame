@@ -237,7 +237,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             {
                 invincibleBlockInterval = 0;
                 invincibleBlockProbability = 0f;
-                return EBlockType.INVINCIBLE_BUFF;
+                return EBlockType.FEVER_BUFF;
             }
         }
 
