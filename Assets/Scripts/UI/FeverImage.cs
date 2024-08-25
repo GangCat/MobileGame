@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class FeverImage : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void StartFever()
     {
-        
+        // 피버이펙트
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StopFever()
     {
-        
+        // 피버이펙트
     }
 }

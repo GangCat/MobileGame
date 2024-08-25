@@ -34,12 +34,12 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
 
     public void StartFever()
     {
-        // 피버이펙트
+        feverImage.StartFever();
     }
 
     public void StopFever()
     {
-        // 피버이펙트
+        feverImage.StopFever();
     }
 
     public void ShowGameUI()
