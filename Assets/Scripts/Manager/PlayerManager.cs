@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutFinishObserver
+public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutFinishObserver, IFeverObserver
 {
     [SerializeField]
     private ModelPartTrail[] modelPartTrailArr;
@@ -26,8 +26,6 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         health.Init(100, 100, 0.5f, onGameOver);
 
         movement.OnBlockProcessed += health.RecoverHP;
-
-        RegisterPlayerMoveObserver(health);
     }
 
     public void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer)
@@ -77,5 +75,19 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
     public void OnNotify()
     {
         ResetPlayer();
+    }
+
+    public void OnNotify(in bool _isFeverStart)
+    {
+        if(_isFeverStart is true)
+        {
+            movement.StartFever();
+            health.StartFever();
+        }
+        else
+        {
+            movement.StopFever();
+            health.StopFever();
+        }
     }
 }

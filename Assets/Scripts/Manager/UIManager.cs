@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, IFeverObserver
 {
     [SerializeField]
     private Slider hpSlider = null;
@@ -94,4 +94,11 @@ public class UIManager : MonoBehaviour
         canvasGame.GameOver();
     }
 
+    public void OnNotify(in bool _isFeverStart)
+    {
+        if (_isFeverStart is true)
+            canvasGame.StartFever();
+        else
+            canvasGame.StopFever();
+    }
 }

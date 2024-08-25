@@ -9,6 +9,8 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     [SerializeField]
     private SpeedLineImage speedLineImage = null;
     [SerializeField]
+    private FeverImage feverImage = null;
+    [SerializeField]
     private Text scoreText = null;
     [SerializeField]
     private ArrowButton[] arrowBtnArr = null;
@@ -30,6 +32,15 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
         }
     }
 
+    public void StartFever()
+    {
+        // 피버이펙트
+    }
+
+    public void StopFever()
+    {
+        // 피버이펙트
+    }
 
     public void ShowGameUI()
     {

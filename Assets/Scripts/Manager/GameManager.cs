@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private ScoreManager scoreMng = null;
     private AudioManager audioMng = null;
     private EnemyManager enemyMng = null;
+    private FeverManager feverMng = null;
     private Cam cam = null;
 
     private void Start()
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
         scoreMng = FindObjectOfType<ScoreManager>();
         audioMng = FindObjectOfType<AudioManager>();
         enemyMng = FindObjectOfType<EnemyManager>();
+        feverMng = FindObjectOfType<FeverManager>();
         cam = FindObjectOfType<Cam>();
 
         enemyMng.Init(objectPoolMng);
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
         particleMng.Init(objectPoolMng, playerMng.transform);
         scoreMng.Init(uiMng.UpdateScore, uiMng.StartSpeedLine, uiMng.FinishSpeedLine);
         audioMng.Init();
+        feverMng.Init();
 
         playerMng.ResetPlayer();
         walkableBlockMng.ResetBlock();
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
         playerMng.RegisterPlayerMoveObserver(scoreMng);
         playerMng.RegisterPlayerMoveObserver(audioMng);
         playerMng.RegisterPlayerMoveObserver(cam);
+        playerMng.RegisterPlayerMoveObserver(feverMng);
 
         audioMng.PlayMenuBackgroundMusic();
 
@@ -53,6 +57,10 @@ public class GameManager : MonoBehaviour
         uiMng.RegisterFadeFinishObserver(walkableBlockMng);
         uiMng.RegisterFadeFinishObserver(audioMng);
         uiMng.RegisterFadeFinishObserver(cam);
+
+        feverMng.RegisterObserver(playerMng);
+        feverMng.RegisterObserver(uiMng);
+        feverMng.RegisterObserver(scoreMng);
     }
 
     private void Update()
@@ -99,10 +107,5 @@ public class GameManager : MonoBehaviour
         uiMng.StartGame();
         playerMng.StartGame();
         scoreMng.StartGame();
-    }
-
-    private void HandleBlockProcessed(EBlockType _blockType)
-    {
-        // 블럭 타입에 따른 추가 로직
     }
 }

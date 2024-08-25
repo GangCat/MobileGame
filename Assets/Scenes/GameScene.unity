@@ -484,7 +484,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd86e437ef83434494e18616eae77fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invincibleTime: 10
 --- !u!114 &184479155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveOffset: 1.5
+  isFeverTime: 0
 --- !u!114 &184479157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 504260739}
   - component: {fileID: 504260741}
   - component: {fileID: 504260740}
+  - component: {fileID: 504260742}
   m_Layer: 5
   m_Name: FeverImage
   m_TagString: Untagged
@@ -783,6 +784,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504260738}
   m_CullTransparentMesh: 1
+--- !u!114 &504260742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504260738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7248482bbeb8e364899f03ede10fbf7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &516632852
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,7 +858,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516632852}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3225,6 +3238,7 @@ Transform:
   - {fileID: 711597521}
   - {fileID: 660548476}
   - {fileID: 1126043105}
+  - {fileID: 1581219763}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1549226696
@@ -3302,6 +3316,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549226696}
   m_CullTransparentMesh: 1
+--- !u!1 &1581219762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1581219763}
+  - component: {fileID: 1581219764}
+  m_Layer: 0
+  m_Name: FeverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1581219763
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581219762}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1528143637}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1581219764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581219762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9194fafc31b72e24d98f98c74c6c676d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feverTime: 10
 --- !u!1 &1588891254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,6 +4692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedLineImage: {fileID: 516632854}
+  feverImage: {fileID: 504260742}
   scoreText: {fileID: 1013710297}
   arrowBtnArr:
   - {fileID: 642270197}

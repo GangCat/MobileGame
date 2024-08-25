@@ -2,21 +2,18 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
+public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField]
-    private float feverTime = 10f;
+    private float maxHP;            // 최대 체력
+    private float curHP;            // 현재 체력
+    private float decreaseFactor;   // 체력 감소 계수
+    private float baseDecreaseRate; // 초기 체력 감소 속도
 
-    private float maxHP;         // 최대 체력
-    private float curHP;     // 현재 체력
-    private float decreaseFactor;    // 체력 감소 계수
-    private int blocksTraveled;      // 이동한 블럭 수
-    private float baseDecreaseRate;  // 초기 체력 감소 속도
-    private Action onGameOverAction;
+    private int blocksTraveled;     // 이동한 블럭 수
 
     private bool isFeverTime = false;
 
-    private WaitForSeconds waitFeverTime = null;
+    private Action onGameOverAction;
 
 
     public bool IsGameStop { get; set; } = true;
@@ -31,14 +28,11 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
         blocksTraveled = 0;
         onGameOverAction = _onGameOverAction;
         isFeverTime = false;
-
-        waitFeverTime = new WaitForSeconds(feverTime);
     }
 
     public void ResetPlayer()
     {
         RecoverHP();
-        StopCoroutine(nameof(StartFeverTimerCoroutine));
 
         isFeverTime = false;
         blocksTraveled = 0;
@@ -85,20 +79,13 @@ public class PlayerHealth : MonoBehaviour, IPlayerMoveObserver
         return maxHP;
     }
 
-    public void OnNotify(in EBlockType _blockType)
-    {
-        // 해당 블럭이 무적블럭일 경우 타이머 작동
-        if (_blockType.Equals(EBlockType.FEVER_BUFF))
-            StartCoroutine(nameof(StartFeverTimerCoroutine));
-
-        //이동한 블럭 수를 증가
-        ++blocksTraveled;
-    }
-
-    private IEnumerator StartFeverTimerCoroutine()
+    public void StartFever()
     {
         isFeverTime = true;
-        yield return waitFeverTime;
+    }
+
+    public void StopFever()
+    {
         isFeverTime = false;
     }
 }

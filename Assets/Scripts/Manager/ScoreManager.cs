@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
+public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IFeverObserver
 {
     [SerializeField]
     private float ScoreMultiplierTime = 5f;
@@ -30,6 +30,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     private float apsStartTime = 0f;
 
     private bool isMoved = false;
+    private bool isFever = false;
 
 
     public void Init(Action<int> _onUpdateScoreAction, Action _onScoreMultiplyStart, Action _onScoreMultiplyFinish)
@@ -138,6 +139,12 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     public void OnNotify()
     {
         ResetScore();
+    }
+
+    public void OnNotify(in bool _isFeverStart)
+    {
+        isFever = _isFeverStart;
+        // 점수를 배수할지 아니면 뭐 재화를 획득하게 할지 고민중
     }
 }
 

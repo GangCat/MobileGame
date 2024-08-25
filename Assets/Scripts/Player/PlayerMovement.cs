@@ -37,8 +37,19 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
         onGameOverAction = _onGameOverAction;
         updateModelForwardAction = _updateModelForwardAction;
         onInventoryIncreaseAction = _onInventoryIncreaseAction;
+        isFeverTime = false;
 
         playerOriginPos = transform.position;
+    }
+
+    public void StartFever()
+    {
+        isFeverTime = true;
+    }
+
+    public void StopFever()
+    {
+        isFeverTime = false;
     }
 
     public void ResetPlayer()
@@ -67,12 +78,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
             prevDir = curDir;
             updateModelForwardAction?.Invoke(curDir);
             NotifyObservers(curBlockType);
-
-            if (curBlockType.Equals(EBlockType.FEVER_BUFF))
-            {
-                isFeverTime = true;
-                Debug.Log("피버타임");
-            }
         }
         else
         {
