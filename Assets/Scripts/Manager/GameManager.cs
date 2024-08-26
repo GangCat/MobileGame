@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         playerMng.RegisterPlayerMoveObserver(audioMng);
         playerMng.RegisterPlayerMoveObserver(cam);
         playerMng.RegisterPlayerMoveObserver(feverMng);
+        playerMng.RegisterPlayerMoveObserver(walkableBlockMng);
 
         audioMng.PlayMenuBackgroundMusic();
 

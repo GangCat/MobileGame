@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class WalkableBlock : MonoBehaviour, IWalkableBlock
+public class WalkableBlock : MonoBehaviour
 {
     [SerializeField]
     private GameObject arrowTestMR;
@@ -11,6 +11,12 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
     private Renderer myRenderer;
 
     private EnemyController enemyController = null;
+
+    [SerializeField]
+    private float intensityFactor = 4f;
+
+    [SerializeField]
+    private int idx = 0;
 
     public Vector3 Forward => transform.forward;
     public Vector2 Position { get; private set; }
@@ -25,15 +31,17 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
 
     private ObjectPoolManager poolManager;
 
-    public void Init(Vector2 _position, EBlockType _blockType, ObjectPoolManager _poolManager, Vector2 _forward)
+    public void Init(Vector2 _position, EBlockType _blockType, ObjectPoolManager _poolManager, Vector2 _forward, int _idx)
     {
         Position = _position;
         blockType = _blockType;
         transform.position = new Vector3(_position.x, -1, _position.y);
         transform.forward = new Vector3(_forward.x, 0, _forward.y);
         poolManager = _poolManager;
+        idx = _idx;
 
         arrowTestMR = transform.GetChild(0).gameObject;
+        myRenderer.material.SetColor("_EmissionColor", Color.red * intensityFactor);
 
         //switch (blockType)
         //{
@@ -55,11 +63,17 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
         StartCoroutine(nameof(AppearBlockCoroutine));
     }
 
+    /// <summary>
+    /// 플레이어가 해당 블럭의 다음 블럭으로 이동했을 때 호출될 함수
+    /// </summary>
     public void OnPositionChanged()
     {
         StartCoroutine(nameof(DisappearBlockCoroutine));
     }
 
+    /// <summary>
+    /// 플레이어가 해당 블럭으로 이동할 때 호출될 함수
+    /// </summary>
     public void OnPositioned()
     {
         // 플레이어가 블럭으로 이동할 때 블럭이 위아래로 잠깐 움직이는 효과
@@ -128,4 +142,21 @@ public class WalkableBlock : MonoBehaviour, IWalkableBlock
 
     }
 
+    public void UpdateIdx()
+    {
+        --idx;
+        if(idx == 3)
+            myRenderer.material.SetColor("_EmissionColor", Color.yellow * intensityFactor);
+        else if(idx < 3)
+            myRenderer.material.SetColor("_EmissionColor", Color.green * intensityFactor);
+    }
+
+    /// <summary>
+    /// 처음 생성되는 블럭들 0, 1, 2, 3 등 주기 위한 함수
+    /// </summary>
+    /// <param name="_newIdx"></param>
+    public void SetNewIdx(int _newIdx)
+    {
+        idx = _newIdx;
+    }
 }

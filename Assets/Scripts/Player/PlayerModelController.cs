@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class PlayerModelController : MonoBehaviour
 {
-    private Animator animator = null;
-
     private StringBuilder sb = null;
 
     private int prevActionNum = -1;
 
+    [SerializeField]
+    private Animator animator = null;
+
     public void Init()
     {
-        animator = GetComponentInChildren<Animator>();
         sb = new("Action");
     }
         

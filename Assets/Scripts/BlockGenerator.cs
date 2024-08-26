@@ -10,7 +10,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     [SerializeField]
     private int minScoreBlockInterval = 20; // 스코어 블럭 최소 간격
     [SerializeField]
-    private int minInvincibleBlockInterval = 20; // 무적버프 블럭 최소 간격
+    private int minFeverBlockInterval = 20; // 무적버프 블럭 최소 간격
     [SerializeField]
     private float scoreBlockProbabilityIncrement = 0.05f; // 스코어 블럭 확률 상승 계수
     [SerializeField]
@@ -52,19 +52,21 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private bool isLeftBlocked = false;
 
     private bool isTurned = false;
+    private int totalBlockCount = 0;
 
 
     // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
     // 그럼 블럭 있는지 확인하는 내용은 언제? 다음 방향 결정할 때.
 
 
-    public void Init(ObjectPoolManager _poolManager, Func<Vector2, bool> _checkIsBlockCanGenFunc)
+    public void Init(ObjectPoolManager _poolManager, Func<Vector2, bool> _checkIsBlockCanGenFunc, int _totalBlockCount)
     {
         curBlockDir = Vector2.right; // 초기 방향 설정
         random = new System.Random();
         curBlockPosition = Vector2.zero;
         poolManager = _poolManager;
         checkIsBlockCanGenFunc = _checkIsBlockCanGenFunc;
+        totalBlockCount = _totalBlockCount;
 
         scoreBlockInterval = 0;
         scoreBlockProbability = 0f;
@@ -107,7 +109,10 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         var walkableBlockGo = poolManager.GetObject(blockPrefabPath);
         WalkableBlock block = walkableBlockGo.GetComponent<WalkableBlock>();
 
-        block.Init(_position, _blockType, poolManager, curBlockDir);
+        // 여기서 totalBlockCount는 플레이어가 서있는 블럭을 제외한 숫자이기 때문에 총 블럭의 개수는 totalBlockCOunt + 1이 맞고
+        // Idx는 0부터 시작하므로 그냥 totalBlockCount를 넣으면 될 것 같지만
+        // 그리고 이렇게 생성한 뒤에 UpdateIdx를 호출하기 때문에 +1을 해줘야 한다
+        block.Init(_position, _blockType, poolManager, curBlockDir, totalBlockCount + 1);
 
         return block;
     }
@@ -229,7 +234,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             }
         }
 
-        if (invincibleBlockInterval >= minInvincibleBlockInterval)
+        if (invincibleBlockInterval >= minFeverBlockInterval)
         {
             invincibleBlockProbability += invincibleBlockProbabilityIncrement;
 

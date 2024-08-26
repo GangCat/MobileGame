@@ -2,21 +2,21 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeOutFinishObserver
+public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeOutFinishObserver, IPlayerMoveObserver
 {
     [SerializeField]
     private int totalBlockCount = 10;
 
-    private Queue<IWalkableBlock> blockQueue = null;
+    private Queue<WalkableBlock> blockQueue = null;
     private IBlockGenerator iBlockGenerator = null;
-    private IWalkableBlock curBlock = null;
+    private WalkableBlock curBlock = null;
     private Action<WalkableBlock> blockGenerateAction = null;
 
     public void Init(ObjectPoolManager _poolManager, Action<WalkableBlock> _blockGenerateAction)
     {
-        blockQueue = new Queue<IWalkableBlock>();
+        blockQueue = new Queue<WalkableBlock>();
         iBlockGenerator = GetComponent<IBlockGenerator>();
-        iBlockGenerator.Init(_poolManager, CheckIsNextBlockCanGen);
+        iBlockGenerator.Init(_poolManager, CheckIsNextBlockCanGen, totalBlockCount);
         blockGenerateAction = _blockGenerateAction;
     }
 
@@ -30,7 +30,7 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
             return true;
         else
         {
-            List<IWalkableBlock> tmpList = new List<IWalkableBlock>(blockQueue);
+            List<WalkableBlock> tmpList = new List<WalkableBlock>(blockQueue);
             for (int i = 0; i < tmpList.Count; ++i)
             {
                 if (tmpList[i].Position != _position)
@@ -41,7 +41,7 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
                 tmpList.Insert(0, b);
 
                 // 큐를 갱신
-                blockQueue = new Queue<IWalkableBlock>(tmpList);
+                blockQueue = new Queue<WalkableBlock>(tmpList);
                 return true;
             }
         }
@@ -89,6 +89,8 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
     private void GenerateStartBlock()
     {
         curBlock = iBlockGenerator.GenerateStartBlock();
+        curBlock.SetNewIdx(1);
+        curBlock.UpdateIdx();
     }
 
     private void GenerateBlock()
@@ -98,6 +100,8 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
             var block = iBlockGenerator.GenerateNextBlock();
             blockGenerateAction?.Invoke(block);
             blockQueue.Enqueue(block);
+            block.SetNewIdx(i + 2);
+            block.UpdateIdx();
         }
     }
 
@@ -120,5 +124,11 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
     public Vector3 GetNextBlockDir()
     {
         return curBlock.Forward;
+    }
+
+    public void OnNotify(in EBlockType _blockType)
+    {
+        foreach (var block in blockQueue)
+            block.UpdateIdx();
     }
 }

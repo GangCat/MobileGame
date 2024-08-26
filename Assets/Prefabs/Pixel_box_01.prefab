@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 1489937180421893359}
   - component: {fileID: 6916341483155155138}
   - component: {fileID: 4476107110265734731}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: TempArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1489937180421893359
 Transform:
   m_ObjectHideFlags: 0
@@ -94,13 +94,13 @@ GameObject:
   - component: {fileID: 8188419336095058345}
   - component: {fileID: 2836620091730040056}
   - component: {fileID: 3162744843950258425}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: TempArrow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8188419336095058345
 Transform:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633888}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633890}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pixel_box_01_Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8722603870051633892}
   - component: {fileID: 8722603870040562638}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pixel_box_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8722603870051633894}
   - component: {fileID: 3376390214591496111}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pixel_box_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,6 +373,8 @@ MonoBehaviour:
   arrowTestMR: {fileID: 6658406328747463232}
   blockType: 0
   myRenderer: {fileID: 8722603870040562638}
+  intensityFactor: 4
+  idx: 0
 --- !u!1 &8722603870052128456
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633896}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633898}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633900}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Down_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633902}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,7 +510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633914}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UP_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +541,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633916}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722603870051633918}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
