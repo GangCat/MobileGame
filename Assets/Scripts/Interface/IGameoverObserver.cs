@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IGameOverObserver
 {
-    void OnNotifyGameOver();
+    void OnGameOverNotify();
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IFadeOutFinishObserver
 {
-    void OnNotify();
+    void OnFadeOutFinishNotify();
 }

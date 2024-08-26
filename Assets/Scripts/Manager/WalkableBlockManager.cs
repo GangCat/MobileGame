@@ -116,7 +116,7 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
         return true;
     }
 
-    public void OnNotify()
+    public void OnFadeOutFinishNotify()
     {
         ResetBlock();
     }

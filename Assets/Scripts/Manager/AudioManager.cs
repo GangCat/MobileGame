@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
+public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IGameOverObserver
 {
     [SerializeField]
     private AudioSource backgroundAudioSrc = null;
@@ -20,6 +20,9 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     private AudioClip countdownClip = null;
     [SerializeField]
     private AudioClip[] normalBlockSfxAudioClip = null;
+
+    [SerializeField]
+    private AudioClip fallingAudioClip = null;
 
     private float fadeoutTime = 2f;
     private float backgroundVolume = 1f;
@@ -116,8 +119,14 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
         backgroundAudioSrc.Stop();
     }
 
-    public void OnNotify()
+    public void OnFadeOutFinishNotify()
     {
         PlayMenuBackgroundMusic();
+    }
+
+    public void OnGameOverNotify()
+    {
+        sfxAudioSrc[0].clip = fallingAudioClip;
+        sfxAudioSrc[0].Play();
     }
 }

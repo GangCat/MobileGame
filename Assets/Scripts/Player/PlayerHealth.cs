@@ -89,7 +89,7 @@ public class PlayerHealth : MonoBehaviour, IGameOverObserver
         isFeverTime = false;
     }
 
-    public void OnNotifyGameOver()
+    public void OnGameOverNotify()
     {
         IsGameStop = true;
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,11 +22,13 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
 
     [SerializeField]
     private bool isFeverTime = false;
+    [SerializeField]
+    private float fallSpeed = 5f;
 
 
 
     public event Action OnBlockProcessed; // 블럭을 한 칸 이동할때마다 호출할 이벤트
-    public bool IsGameStop { get; set; } = true;
+    public bool IsGameOver { get; set; } = true;
 
 
 
@@ -54,6 +57,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
 
     public void ResetPlayer()
     {
+        StopCoroutine(nameof(FallCoroutine));
         transform.position = playerOriginPos;
         prevDir = Vector2.zero;
         curDir = Vector2.zero;
@@ -61,7 +65,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
 
     public void HandleMovement()
     {
-        if (IsGameStop)
+        if (IsGameOver)
             return;
 
         if (curDir == Vector2.zero || prevDir == -curDir)
@@ -194,8 +198,18 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
         }
     }
 
-    public void OnNotifyGameOver()
+    public void OnGameOverNotify()
     {
-        IsGameStop = true;
+        IsGameOver = true;
+        StartCoroutine(nameof(FallCoroutine));
+    }
+
+    private IEnumerator FallCoroutine()
+    {
+        while (true)
+        {
+            transform.position -= new Vector3(0, fallSpeed * Time.deltaTime, 0);
+            yield return null;
+        }
     }
 }

@@ -26,7 +26,7 @@ public class CanvasLobby : MonoBehaviour, IFadeOutFinishObserver
         gameObject.SetActive(false);
     }
 
-    public void OnNotify()
+    public void OnFadeOutFinishNotify()
     {
         EnterLobby();
     }

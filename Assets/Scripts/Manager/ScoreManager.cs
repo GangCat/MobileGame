@@ -136,7 +136,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
             bestAPS = APS;
     }
 
-    public void OnNotify()
+    public void OnFadeOutFinishNotify()
     {
         ResetScore();
     }

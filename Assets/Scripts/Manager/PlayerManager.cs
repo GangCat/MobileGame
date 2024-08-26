@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
     /// </summary>
     public void StartGame()
     {
-        movement.IsGameStop = false;
+        movement.IsGameOver = false;
         health.IsGameStop = false;
     }
 
@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         movement.OnArrowButtonpressed(_arrowType);
     }
 
-    public void OnNotify()
+    public void OnFadeOutFinishNotify()
     {
         ResetPlayer();
     }
@@ -114,6 +114,6 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
     public void NotifyObserversGameOver()
     {
         foreach (var observer in gameoverObserverList)
-            observer.OnNotifyGameOver();
+            observer.OnGameOverNotify();
     }
 }

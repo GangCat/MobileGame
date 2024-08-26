@@ -84,6 +84,6 @@ public class CanvasFade : MonoBehaviour, IFadeOutFinishSubject
     public void NotifyObservers()
     {
         foreach (var observer in observerList)
-            observer.OnNotify();
+            observer.OnFadeOutFinishNotify();
     }
 }

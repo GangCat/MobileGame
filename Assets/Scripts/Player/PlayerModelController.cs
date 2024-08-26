@@ -45,7 +45,7 @@ public class PlayerModelController : MonoBehaviour, IGameOverObserver
         transform.forward = Vector3.back;
     }
 
-    public void OnNotifyGameOver()
+    public void OnGameOverNotify()
     {
         PlayFallingAnim();
     }

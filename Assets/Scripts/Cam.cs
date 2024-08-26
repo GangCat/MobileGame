@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
+public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IGameOverObserver
 {
     [SerializeField]
     private Transform playerTr = null;
@@ -32,13 +32,18 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
 
     }
     
-    public void GameOver()
+    private IEnumerator GameOverCoroutine()
     {
-        transform.forward = playerTr.position - transform.position;
+        while (true)
+        {
+            transform.forward = playerTr.position - transform.position;
+            yield return null;
+        }
     }
 
     public void ResetCamPos()
     {
+        StopCoroutine(nameof(GameOverCoroutine));
         if (followPlayerSmoothCoroutine != null)
         {
             StopCoroutine(followPlayerSmoothCoroutine);
@@ -88,8 +93,13 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
         transform.eulerAngles = gameCamEulerAngles;
     }
 
-    public void OnNotify()
+    public void OnFadeOutFinishNotify()
     {
         ResetCamPos();
+    }
+
+    public void OnGameOverNotify()
+    {
+        StartCoroutine(nameof(GameOverCoroutine));
     }
 }

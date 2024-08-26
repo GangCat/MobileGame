@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         feverMng.RegisterObserver(scoreMng);
 
         playerMng.RegisterGameOverObserver(this);
+        playerMng.RegisterGameOverObserver(cam);
+        playerMng.RegisterGameOverObserver(audioMng);
 
 
     }
@@ -114,7 +116,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         scoreMng.StartGame();
     }
 
-    public void OnNotifyGameOver()
+    public void OnGameOverNotify()
     {
         HandleGameOver();
     }
