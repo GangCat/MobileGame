@@ -141,7 +141,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
         ResetScore();
     }
 
-    public void OnNotify(in bool _isFeverStart)
+    public void OnFeverNotify(in bool _isFeverStart)
     {
         isFever = _isFeverStart;
         // 점수를 배수할지 아니면 뭐 재화를 획득하게 할지 고민중

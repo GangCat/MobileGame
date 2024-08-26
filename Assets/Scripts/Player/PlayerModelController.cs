@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public class PlayerModelController : MonoBehaviour
+public class PlayerModelController : MonoBehaviour, IGameOverObserver
 {
     private StringBuilder sb = null;
 
@@ -16,7 +16,13 @@ public class PlayerModelController : MonoBehaviour
     {
         sb = new("Action");
     }
-        
+
+    private void PlayFallingAnim()
+    {
+        animator.SetTrigger("OnFall");
+    }
+
+
     public void UpdateModelForward(Vector2 _dir)
     {
         transform.forward = new Vector3(_dir.x, 0f, _dir.y);
@@ -37,5 +43,10 @@ public class PlayerModelController : MonoBehaviour
     {
         animator.Play("Idle_A");
         transform.forward = Vector3.back;
+    }
+
+    public void OnNotifyGameOver()
+    {
+        PlayFallingAnim();
     }
 }

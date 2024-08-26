@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IGameOverObserver
 {
     private float maxHP;            // 최대 체력
     private float curHP;            // 현재 체력
@@ -87,5 +87,10 @@ public class PlayerHealth : MonoBehaviour
     public void StopFever()
     {
         isFeverTime = false;
+    }
+
+    public void OnNotifyGameOver()
+    {
+        IsGameStop = true;
     }
 }

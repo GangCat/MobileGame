@@ -95,7 +95,7 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     {
         foreach (var observer in observerList)
         {
-            observer.OnNotify(_arrowType);
+            observer.OnArrowButtonClickNotify(_arrowType);
         }
     }
 }

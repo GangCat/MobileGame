@@ -31,6 +31,11 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver
         StartCoroutine(nameof(MoveCamToGamePosCoroutine));
 
     }
+    
+    public void GameOver()
+    {
+        transform.forward = playerTr.position - transform.position;
+    }
 
     public void ResetCamPos()
     {

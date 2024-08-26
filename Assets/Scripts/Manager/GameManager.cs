@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IGameOverObserver
 {
     private PlayerManager playerMng = null;
     private WalkableBlockManager walkableBlockMng = null;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         cam = FindObjectOfType<Cam>();
 
         enemyMng.Init(objectPoolMng);
-        playerMng.Init(walkableBlockMng, HandleGameOver);
+        playerMng.Init(walkableBlockMng);
         walkableBlockMng.Init(objectPoolMng, enemyMng.GenEnemy);
         uiMng.Init(StartGameCountdown);
         particleMng.Init(objectPoolMng, playerMng.transform);
@@ -62,6 +62,10 @@ public class GameManager : MonoBehaviour
         feverMng.RegisterObserver(playerMng);
         feverMng.RegisterObserver(uiMng);
         feverMng.RegisterObserver(scoreMng);
+
+        playerMng.RegisterGameOverObserver(this);
+
+
     }
 
     private void Update()
@@ -70,7 +74,7 @@ public class GameManager : MonoBehaviour
         uiMng.UpdatePlayerHP(curHP);
     }
 
-    private void HandleGameOver(int _goldCnt, int _diaCnt)
+    private void HandleGameOver()
     {
         uiMng.GameOver(scoreMng.CalcResult());
         Debug.Log("Game Over: Handling game over in GameManager.");
@@ -108,5 +112,10 @@ public class GameManager : MonoBehaviour
         uiMng.StartGame();
         playerMng.StartGame();
         scoreMng.StartGame();
+    }
+
+    public void OnNotifyGameOver()
+    {
+        HandleGameOver();
     }
 }

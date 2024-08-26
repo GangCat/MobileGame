@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
+public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserver
 {
     [SerializeField]
     private float moveOffset = 0f;
@@ -192,5 +192,10 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject
         {
             observer.OnNotify(_blockType);
         }
+    }
+
+    public void OnNotifyGameOver()
+    {
+        IsGameStop = true;
     }
 }

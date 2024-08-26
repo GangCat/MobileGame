@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour, IFeverObserver
         canvasGame.GameOver();
     }
 
-    public void OnNotify(in bool _isFeverStart)
+    public void OnFeverNotify(in bool _isFeverStart)
     {
         if (_isFeverStart is true)
             canvasGame.StartFever();

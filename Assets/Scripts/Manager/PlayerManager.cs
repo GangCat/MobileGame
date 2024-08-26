@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutFinishObserver, IFeverObserver
+public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutFinishObserver, IFeverObserver, IGameOverSubject
 {
     [SerializeField]
     private ModelPartTrail[] modelPartTrailArr;
@@ -10,15 +11,16 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
     private PlayerInventory inventory;
     private PlayerHealth health;
     private PlayerModelController model;
-    private Action<int, int> gameOverAction;
 
-    public void Init(IWalkableBlockManager _blockManager, Action<int, int> _gameOverAction)
+    private List<IGameOverObserver> gameoverObserverList = null;
+
+    public void Init(IWalkableBlockManager _blockManager)
     {
         movement = GetComponent<PlayerMovement>();
         inventory = GetComponent<PlayerInventory>();
         health = GetComponent<PlayerHealth>();
         model = GetComponentInChildren<PlayerModelController>();
-        gameOverAction = _gameOverAction;
+        gameoverObserverList = new();
 
         model.Init();
         movement.Init(_blockManager, onGameOver, inventory.ProcessBlock, model.UpdateModelForward);
@@ -26,6 +28,10 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         health.Init(100, 100, 0.5f, onGameOver);
 
         movement.OnBlockProcessed += health.RecoverHP;
+
+        RegisterGameOverObserver(model);
+        RegisterGameOverObserver(movement);
+        RegisterGameOverObserver(health);
     }
 
     public void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer)
@@ -48,6 +54,10 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         return gameObject.transform.position;
     }
 
+    /// <summary>
+    /// 이동할 수 있는 순간을 알려줌
+    /// 리셋 플레이어때는 로비여서 움직이면 안됨
+    /// </summary>
     public void StartGame()
     {
         movement.IsGameStop = false;
@@ -61,13 +71,10 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
 
     public void onGameOver()
     {
-        // 이동 막는 내용
-        movement.IsGameStop = true;
-        health.IsGameStop = true;
-        gameOverAction?.Invoke(inventory.GetGoldCount(), inventory.GetDiamondCount());
+        NotifyObserversGameOver();
     }
 
-    public void OnNotify(in EArrowButtonType _arrowType)
+    public void OnArrowButtonClickNotify(in EArrowButtonType _arrowType)
     {
         movement.OnArrowButtonpressed(_arrowType);
     }
@@ -77,7 +84,7 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         ResetPlayer();
     }
 
-    public void OnNotify(in bool _isFeverStart)
+    public void OnFeverNotify(in bool _isFeverStart)
     {
         if(_isFeverStart is true)
         {
@@ -89,5 +96,24 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
             movement.StopFever();
             health.StopFever();
         }
+    }
+
+    public void RegisterGameOverObserver(IGameOverObserver _observer)
+    {
+        gameoverObserverList ??= new();
+        if(!gameoverObserverList.Contains(_observer))
+            gameoverObserverList.Add(_observer);
+    }
+
+    public void UnregisterGameOverObserver(IGameOverObserver _observer)
+    {
+        if (!gameoverObserverList.Contains(_observer))
+            gameoverObserverList.Remove(_observer);
+    }
+
+    public void NotifyObserversGameOver()
+    {
+        foreach (var observer in gameoverObserverList)
+            observer.OnNotifyGameOver();
     }
 }

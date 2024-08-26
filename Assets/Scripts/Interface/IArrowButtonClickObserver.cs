@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IArrowButtonClickObserver
 {
-    void OnNotify(in EArrowButtonType _arrowType);
+    void OnArrowButtonClickNotify(in EArrowButtonType _arrowType);
 }
