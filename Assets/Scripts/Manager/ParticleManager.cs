@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
+public class ParticleManager : MonoBehaviour, IPlayerMoveObserver, IFeverObserver
 {
     [SerializeField]
     private string greenBoxParticlePath = "";
@@ -38,6 +39,9 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
             case EBlockType.TRIPLE_SCORE:
                 SpawnParticleAndInit(TripleBoxParticlePath, playerTr.position);
                 break;
+            case EBlockType.FEVER_BUFF:
+                StartCoroutine(nameof(SpawnFeverParticleCoroutine));
+                break;
             default:
                 break;
         }
@@ -52,5 +56,22 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver
     {
         var greenParticleGo = poolManager.GetObject(_particlePath);
         greenParticleGo.GetComponent<ParticleObject>().Init(_particlePos, poolManager);
+    }
+
+    private IEnumerator SpawnFeverParticleCoroutine()
+    {
+        while (true)
+        {
+
+            yield return null;
+        }
+    }
+
+    public void OnFeverNotify(in bool _isFeverStart)
+    {
+        if (!_isFeverStart)
+        {
+            StopCoroutine(nameof(SpawnFeverParticleCoroutine));
+        }
     }
 }
