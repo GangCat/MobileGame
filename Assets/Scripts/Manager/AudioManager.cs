@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IGameOverObserver
+public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IGameOverObserver, IFeverObserver
 {
     [SerializeField]
     private AudioSource backgroundAudioSrc = null;
@@ -20,6 +20,8 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     private AudioClip countdownClip = null;
     [SerializeField]
     private AudioClip[] normalBlockSfxAudioClip = null;
+    [SerializeField]
+    private AudioClip gameBackgroundAudioClip = null;
 
     [SerializeField]
     private AudioClip fallingAudioClip = null;
@@ -100,12 +102,12 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     }
 
 
-    internal void FadeOutBackground()
+    internal void ChangeToGameBackgroundMusic()
     {
-        StartCoroutine(nameof(FadeOutBackgroundCoroutine));
+        StartCoroutine(nameof(ChangeToGameBackgroundMusicCoroutine));
     }
 
-    private IEnumerator FadeOutBackgroundCoroutine()
+    private IEnumerator ChangeToGameBackgroundMusicCoroutine()
     {
         float elapsedTime = fadeoutTime;
         while (elapsedTime / fadeoutTime > 0)
@@ -116,7 +118,11 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
             yield return null;
         }
 
-        backgroundAudioSrc.Stop();
+
+        backgroundAudioSrc.clip = gameBackgroundAudioClip;
+        backgroundAudioSrc.volume = 1;
+        backgroundAudioSrc.Play();
+        //backgroundAudioSrc.Stop();
     }
 
     public void OnFadeOutFinishNotify()
@@ -128,5 +134,11 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     {
         sfxAudioSrc[0].clip = fallingAudioClip;
         sfxAudioSrc[0].Play();
+        backgroundAudioSrc.pitch = 1f;
+    }
+
+    public void OnFeverNotify(in bool _isFeverStart)
+    {
+        backgroundAudioSrc.pitch = _isFeverStart ? 1.4f : 1f;
     }
 }

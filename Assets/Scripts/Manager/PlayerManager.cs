@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         RegisterGameOverObserver(model);
         RegisterGameOverObserver(movement);
         RegisterGameOverObserver(health);
+
     }
 
     public void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer)

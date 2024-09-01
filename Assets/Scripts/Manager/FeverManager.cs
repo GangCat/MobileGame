@@ -34,7 +34,7 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
             observer.OnFeverNotify(_isFeverStart);
     }
 
-    public void RegisterObserver(IFeverObserver _observer)
+    public void RegisterFeverObserver(IFeverObserver _observer)
     {
         observerList ??= new();
         if(!observerList.Contains(_observer))

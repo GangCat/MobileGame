@@ -9,6 +9,8 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver, IFeverObserve
     private string doubleBoxParticlePath = "";
     [SerializeField]
     private string TripleBoxParticlePath = "";
+    [SerializeField]
+    private GameObject[] feverParticleGOArr = null;
 
     private ObjectPoolManager poolManager;
     private Transform playerTr;
@@ -24,6 +26,9 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver, IFeverObserve
         poolManager.PrepareObjects(greenBoxParticlePath);
         poolManager.PrepareObjects(doubleBoxParticlePath);
         poolManager.PrepareObjects(TripleBoxParticlePath);
+
+        foreach (var go in feverParticleGOArr)
+            go.SetActive(false);
     }
 
     public void SpawnParticle(EBlockType _particleType)
@@ -38,9 +43,6 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver, IFeverObserve
                 break;
             case EBlockType.TRIPLE_SCORE:
                 SpawnParticleAndInit(TripleBoxParticlePath, playerTr.position);
-                break;
-            case EBlockType.FEVER_BUFF:
-                StartCoroutine(nameof(SpawnFeverParticleCoroutine));
                 break;
             default:
                 break;
@@ -58,20 +60,9 @@ public class ParticleManager : MonoBehaviour, IPlayerMoveObserver, IFeverObserve
         greenParticleGo.GetComponent<ParticleObject>().Init(_particlePos, poolManager);
     }
 
-    private IEnumerator SpawnFeverParticleCoroutine()
-    {
-        while (true)
-        {
-
-            yield return null;
-        }
-    }
-
     public void OnFeverNotify(in bool _isFeverStart)
     {
-        if (!_isFeverStart)
-        {
-            StopCoroutine(nameof(SpawnFeverParticleCoroutine));
-        }
+        foreach (var feverParticleGO in feverParticleGOArr)
+            feverParticleGO.SetActive(_isFeverStart);
     }
 }

@@ -59,9 +59,11 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         uiMng.RegisterFadeFinishObserver(audioMng);
         uiMng.RegisterFadeFinishObserver(cam);
 
-        feverMng.RegisterObserver(playerMng);
-        feverMng.RegisterObserver(uiMng);
-        feverMng.RegisterObserver(scoreMng);
+        feverMng.RegisterFeverObserver(playerMng);
+        feverMng.RegisterFeverObserver(uiMng);
+        feverMng.RegisterFeverObserver(scoreMng);
+        feverMng.RegisterFeverObserver(particleMng);
+        feverMng.RegisterFeverObserver(audioMng);
 
         playerMng.RegisterGameOverObserver(this);
         playerMng.RegisterGameOverObserver(cam);
@@ -101,7 +103,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
     /// <returns></returns>
     private IEnumerator CountdownCoroutine()
     {
-        audioMng.FadeOutBackground();
+        audioMng.ChangeToGameBackgroundMusic();
         uiMng.Countdown(3);
         audioMng.PlayCountdownSFX(1);
         yield return new WaitForSeconds(1f);
