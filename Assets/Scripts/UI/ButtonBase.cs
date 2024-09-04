@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ButtonBase : MonoBehaviour
 {
-    private Button btn = null;
+    protected Button btn = null;
     public virtual void Init()
     {
         btn = GetComponent<Button>();

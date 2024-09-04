@@ -45,3 +45,9 @@ public enum EArrowDir
     RIGHT,
     LEFT
 }
+
+public enum EVolumeType
+{
+    BGM,
+    SFX
+}

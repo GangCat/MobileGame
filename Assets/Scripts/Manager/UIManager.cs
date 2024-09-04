@@ -19,18 +19,26 @@ public class UIManager : MonoBehaviour, IFeverObserver
     private CanvasGame canvasGame = null;
     [SerializeField]
     private CanvasFade canvasFade = null;
+    [SerializeField]
+    private CanvasSettings canvasSettings = null;
 
-    public void Init(Action _StartGameAction)
+    public void Init(Action _startGameAction, Action<bool> _onVibeSetAction)
     {
         hpSlider.value = 100;
         scoreText.text = "0";
-        canvasLobby.Init(_StartGameAction);
+        canvasLobby.Init(_startGameAction, canvasSettings.OpenSettings);
         canvasResult.Init(canvasFade.FadeOut);
         canvasGame.Init();
         canvasFade.Init();
+        canvasSettings.Init(canvasLobby.ShowLobby, _onVibeSetAction);
 
         RegisterFadeFinishObserver(canvasLobby);
         RegisterFadeFinishObserver(canvasResult);
+    }
+
+    public void RegisterVolumeChangeObserver(IVolumeChangeObserver _observer)
+    {
+        canvasSettings.RegisterVolumeChangeObserver(_observer);
     }
 
     public void Countdown(int _count)
@@ -43,7 +51,7 @@ public class UIManager : MonoBehaviour, IFeverObserver
     /// </summary>
     public void ShowGameUI()
     {
-        canvasLobby.ShowGameUI();
+        canvasLobby.HideLobby();
         canvasGame.ShowGameUI();
         countdownText.gameObject.SetActive(true);
     }

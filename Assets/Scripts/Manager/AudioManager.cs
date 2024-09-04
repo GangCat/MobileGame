@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IGameOverObserver, IFeverObserver
+public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IGameOverObserver, IFeverObserver, IVolumeChangeObserver
 {
     [SerializeField]
     private AudioSource backgroundAudioSrc = null;
@@ -140,5 +140,29 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     public void OnFeverNotify(in bool _isFeverStart)
     {
         backgroundAudioSrc.pitch = _isFeverStart ? 1.4f : 1f;
+    }
+
+    public void ChangeBackgroundVolume(float _volume)
+    {
+        backgroundAudioSrc.volume = _volume;
+    }
+
+    public void ChangeSFXVolume(float _volume)
+    {
+        foreach (var src in sfxAudioSrc)
+            src.volume = _volume;
+    }
+
+    public void OnVolumeChangeNotify(EVolumeType _volumeType, float _volume)
+    {
+        switch (_volumeType)
+        {
+            case EVolumeType.BGM:
+                ChangeBackgroundVolume(_volume);
+                break;
+            case EVolumeType.SFX:
+                ChangeSFXVolume(_volume);
+                break;
+        }
     }
 }
