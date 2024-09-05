@@ -126,7 +126,7 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
         return curBlock.Forward;
     }
 
-    public void OnNotify(in EBlockType _blockType)
+    public void OnPlayerMoveNotify(in EBlockType _blockType)
     {
         foreach (var block in blockQueue)
             block.UpdateIdx();

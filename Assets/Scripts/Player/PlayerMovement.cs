@@ -194,7 +194,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
     {
         foreach (var observer in observerList)
         {
-            observer.OnNotify(_blockType);
+            observer.OnPlayerMoveNotify(_blockType);
         }
     }
 

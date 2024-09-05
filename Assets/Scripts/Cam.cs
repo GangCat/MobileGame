@@ -52,7 +52,7 @@ public class Cam : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, I
         transform.eulerAngles = lobbyCamEulerAngles;
     }
 
-    public void OnNotify(in EBlockType _blockType)
+    public void OnPlayerMoveNotify(in EBlockType _blockType)
     {
         if (followPlayerSmoothCoroutine != null)
         {

@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
         audioSource.Play();
     }
 
-    public void OnNotify(in EBlockType _blockType)
+    public void OnPlayerMoveNotify(in EBlockType _blockType)
     {
         OnPlayerMoveBlock(_blockType);
     }

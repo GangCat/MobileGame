@@ -47,7 +47,7 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
             observerList.Remove(_observer);
     }
 
-    public void OnNotify(in EBlockType _blockType)
+    public void OnPlayerMoveNotify(in EBlockType _blockType)
     {
         if (_blockType.Equals(EBlockType.FEVER_BUFF))
             StartFever();

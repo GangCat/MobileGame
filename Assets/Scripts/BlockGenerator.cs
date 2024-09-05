@@ -17,7 +17,15 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private float invincibleBlockProbabilityIncrement = 0.05f; // 무적버프 블럭 확률 상승 계수
 
     [SerializeField]
-    private string blockPrefabPath;
+    private string normalBlockPrefabPath;
+    [SerializeField]
+    private string doubleBlockPrefabPath;
+    [SerializeField]
+    private string tripleBlockPrefabPath;
+
+    // 무적 버프는 아이템으로 하면 좋을듯?
+    //그럼 그건 블럭은 그냥 노말블럭으로 ㅇㅇ
+
     [SerializeField]
     private string normalBlockMatPath;
     [SerializeField]
@@ -75,7 +83,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         invincibleBlockInterval = 0;
         invincibleBlockProbability = 0f;
 
-        poolManager.PrepareObjects(blockPrefabPath, 7);
+        poolManager.PrepareObjects(normalBlockPrefabPath, 7);
 
         UpdateDirections();
 
@@ -106,7 +114,21 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     public WalkableBlock CreateBlock(Vector2 _position, EBlockType _blockType)
     {
-        var walkableBlockGo = poolManager.GetObject(blockPrefabPath);
+        GameObject walkableBlockGo = null;
+        switch (_blockType)
+        {
+            case EBlockType.NORMAL:
+            case EBlockType.FEVER_BUFF:
+                walkableBlockGo = poolManager.GetObject(normalBlockPrefabPath);
+                break;
+            case EBlockType.DOUBLE_SCORE:
+                walkableBlockGo = poolManager.GetObject(doubleBlockPrefabPath);
+                break;
+            case EBlockType.TRIPLE_SCORE:
+                walkableBlockGo = poolManager.GetObject(tripleBlockPrefabPath);
+                break;
+        }
+        
         WalkableBlock block = walkableBlockGo.GetComponent<WalkableBlock>();
 
         // 여기서 totalBlockCount는 플레이어가 서있는 블럭을 제외한 숫자이기 때문에 총 블럭의 개수는 totalBlockCOunt + 1이 맞고

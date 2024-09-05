@@ -4,8 +4,6 @@ using UnityEngine;
 public class WalkableBlock : MonoBehaviour
 {
     [SerializeField]
-    private GameObject arrowTestMR;
-    [SerializeField]
     private EBlockType blockType;
     [SerializeField]
     private Renderer myRenderer;
@@ -40,24 +38,7 @@ public class WalkableBlock : MonoBehaviour
         poolManager = _poolManager;
         idx = _idx;
 
-        arrowTestMR = transform.GetChild(0).gameObject;
         myRenderer.material.SetColor("_EmissionColor", Color.red * intensityFactor);
-
-        //switch (blockType)
-        //{
-        //    case EBlockType.NORMAL:
-        //        GetComponent<Renderer>().material.color = Color.green;
-        //        break;
-        //    case EBlockType.DOUBLE_SCORE:
-        //        GetComponent<Renderer>().material.color = Color.yellow;
-        //        break;
-        //    case EBlockType.TRIPLE_SCORE:
-        //        GetComponent<Renderer>().material.color = Color.cyan;
-        //        break;
-        //    case EBlockType.INVINCIBLE_BUFF:
-        //        GetComponent<Renderer>().material.color = Color.white;
-        //        break;
-        //}
 
 
         StartCoroutine(nameof(AppearBlockCoroutine));

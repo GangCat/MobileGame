@@ -107,6 +107,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a363bee28652b645b6fdb8150d90236
+    m_Address: doubleBlock.Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d63ebd63a494f0448b631edd1bcac70b
+    m_Address: tripleBlock.Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 038eb380f27e2c944997f1aa763ecb1f, type: 2}
   m_SchemaSet:
