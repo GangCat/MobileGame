@@ -64,6 +64,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
         onUpdateScoreAction?.Invoke(curScore);
         curMultiplier = 1;
         bestAPS = 0;
+        actionCount = 0;
     }
 
     public void OnPlayerMoveNotify(in EBlockType _blockType)

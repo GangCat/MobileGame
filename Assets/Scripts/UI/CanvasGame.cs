@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
 {
@@ -11,7 +12,7 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     [SerializeField]
     private FeverImage feverImage = null;
     [SerializeField]
-    private Text scoreText = null;
+    private TextMeshProUGUI scoreText = null;
     [SerializeField]
     private ArrowButton[] arrowBtnArr = null;
 

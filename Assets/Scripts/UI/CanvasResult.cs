@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CanvasResult : MonoBehaviour, IFadeOutFinishObserver
 {
     [SerializeField]
     private GameObject resultPanelGO = null;
     [SerializeField]
-    private Text scoreText;
+    private TextMeshProUGUI scoreText;
     [SerializeField]
-    private Text totalTimeText;
+    private TextMeshProUGUI totalTimeText;
     [SerializeField]
-    private Text bestAPSText;
+    private TextMeshProUGUI bestAPSText;
     [SerializeField]
     private ButtonBase closeBtn = null;
 

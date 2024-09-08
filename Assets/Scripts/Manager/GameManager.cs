@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
     private AudioManager audioMng = null;
     private EnemyManager enemyMng = null;
     private FeverManager feverMng = null;
+    private VibrateManager vibMng = null;
     private Cam cam = null;
 
     private void Start()
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         audioMng = FindObjectOfType<AudioManager>();
         enemyMng = FindObjectOfType<EnemyManager>();
         feverMng = FindObjectOfType<FeverManager>();
+        vibMng = FindObjectOfType<VibrateManager>();
         cam = FindObjectOfType<Cam>();
 
         enemyMng.Init(objectPoolMng);
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         scoreMng.Init(uiMng.UpdateScore, uiMng.StartSpeedLine, uiMng.FinishSpeedLine);
         audioMng.Init();
         feverMng.Init();
+        vibMng.Init();
 
         playerMng.ResetPlayer();
         walkableBlockMng.ResetBlock();
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         playerMng.RegisterPlayerMoveObserver(cam);
         playerMng.RegisterPlayerMoveObserver(feverMng);
         playerMng.RegisterPlayerMoveObserver(walkableBlockMng);
+        playerMng.RegisterPlayerMoveObserver(vibMng);
 
         audioMng.PlayMenuBackgroundMusic();
 
@@ -74,9 +78,9 @@ public class GameManager : MonoBehaviour, IGameOverObserver
 
     }
 
-    private void SetVibe(bool _isVibeOn)
+    private void SetVibe(bool _isVibrate)
     {
-
+        vibMng.SetIsVibrate(_isVibrate);
     }
 
     private void Update()

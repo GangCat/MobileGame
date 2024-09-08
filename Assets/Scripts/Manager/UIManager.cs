@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour, IFeverObserver
 {
     [SerializeField]
     private Slider hpSlider = null;
     [SerializeField]
-    private Text scoreText = null;
+    private TextMeshProUGUI scoreText = null;
     [SerializeField]
-    private Text countdownText = null;
+    private TextMeshProUGUI countdownText = null;
 
     [SerializeField]
     private CanvasResult canvasResult;

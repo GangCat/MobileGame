@@ -51,3 +51,10 @@ public enum EVolumeType
     BGM,
     SFX
 }
+
+public struct SSettingValue
+{
+    float bgmVolume;
+    float sfxVolume;
+    bool isVibrate;
+}
