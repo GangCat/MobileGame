@@ -10,8 +10,6 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     [SerializeField]
     private SpeedLineImage speedLineImage = null;
     [SerializeField]
-    private FeverImage feverImage = null;
-    [SerializeField]
     private TextMeshProUGUI scoreText = null;
     [SerializeField]
     private ArrowButton[] arrowBtnArr = null;
@@ -35,12 +33,12 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
 
     public void StartFever()
     {
-        feverImage.StartFever();
+
     }
 
     public void StopFever()
     {
-        feverImage.StopFever();
+
     }
 
     public void ShowGameUI()

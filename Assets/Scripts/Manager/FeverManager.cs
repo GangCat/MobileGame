@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
 {
     [SerializeField]
     private float feverTime = 10f;
+    [SerializeField]
+    private Slider feverSlider = null;
 
     private List<IFeverObserver> observerList = null;
-    private WaitForSeconds waitFeverTime = null;
 
     public void Init()
     {
         observerList = new();
-        waitFeverTime = new WaitForSeconds(feverTime);
+        feverSlider.gameObject.SetActive(false);
     }
 
     public void StartFever()
@@ -24,7 +26,16 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
     private IEnumerator FeverCoroutine()
     {
         NotifyObservers(true);
-        yield return waitFeverTime;
+        feverSlider.gameObject.SetActive(true);
+        feverSlider.value = 1f;
+        float elapsedTime = feverTime;
+        while(elapsedTime > 0)
+        {
+            elapsedTime -= Time.deltaTime;
+            feverSlider.value = elapsedTime / feverTime;
+            yield return null;
+        }
+        feverSlider.gameObject.SetActive(false);
         NotifyObservers(false);
     }
 
