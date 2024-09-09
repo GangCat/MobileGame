@@ -98,21 +98,13 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
     {
         // pc테스트용
         if(Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            OnUpButtonPressed();
-        }
+            OnArrowButtonpressed(EArrowButtonType.UP);
         else if(Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            OnDownButtonPressed();
-        }
+            OnArrowButtonpressed(EArrowButtonType.DOWN);
         else if(Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            OnRightButtonPressed();
-        }
+            OnArrowButtonpressed(EArrowButtonType.RIGHT);
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            OnLeftButtonPressed();
-        }
+            OnArrowButtonpressed(EArrowButtonType.LEFT);
     }
 
     public void OnArrowButtonpressed(EArrowButtonType _arrowType)
@@ -132,6 +124,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
 
             return;
         }
+
         switch (_arrowType)
         {
             case EArrowButtonType.UP:

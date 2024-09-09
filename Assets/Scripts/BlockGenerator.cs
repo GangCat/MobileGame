@@ -24,16 +24,6 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private string tripleBlockPrefabPath;
 
     // 무적 버프는 아이템으로 하면 좋을듯?
-    //그럼 그건 블럭은 그냥 노말블럭으로 ㅇㅇ
-
-    [SerializeField]
-    private string normalBlockMatPath;
-    [SerializeField]
-    private string doubleScoreBlockMatPath;
-    [SerializeField]
-    private string tripleScoreBlockMatPath;
-    [SerializeField]
-    private string invincibleBlockMatPath;
 
     private int scoreBlockInterval = 0; // 마지막 스코어 블럭 이후 생성된 블럭 수
     private float scoreBlockProbability = 0f; // 현재 스코어 블럭 생성 확률
