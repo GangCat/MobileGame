@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         walkableBlockMng.Init(objectPoolMng, enemyMng.GenEnemy);
         uiMng.Init(StartGameCountdown, SetVibe);
         particleMng.Init(objectPoolMng, playerMng.transform);
-        scoreMng.Init(uiMng.UpdateScore, uiMng.StartSpeedLine, uiMng.FinishSpeedLine);
+        scoreMng.Init(uiMng.UpdateScore);
         audioMng.Init();
         feverMng.Init();
         vibMng.Init();
@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         playerMng.RegisterGameOverObserver(this);
         playerMng.RegisterGameOverObserver(cam);
         playerMng.RegisterGameOverObserver(audioMng);
+
+        scoreMng.RegisterMultiScoreObserver(uiMng);
 
 
     }

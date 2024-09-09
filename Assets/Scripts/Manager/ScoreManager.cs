@@ -2,15 +2,14 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
-public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IFeverObserver
+public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishObserver, IFeverObserver, IMultiScoreSubject
 {
     [SerializeField]
     private float ScoreMultiplierTime = 5f;
 
     private Action<int> onUpdateScoreAction = null; // 점수가 갱신될 때마다 업데이트하는 액션
-    private Action onScoreMultiplyStart = null;
-    private Action onScoreMultiplyFinish = null;
 
     private int curScore = 0; // 현재까지 총 점수
 
@@ -18,7 +17,6 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
 
     private int curMultiplier = 1;
 
-    public int CurScore => curScore;
 
     private float startTime = 0f;
 
@@ -32,14 +30,16 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     private bool isMoved = false;
     private bool isFever = false;
 
+    private List<IMultiScoreObserver> multiScoreObserverList = null;
 
-    public void Init(Action<int> _onUpdateScoreAction, Action _onScoreMultiplyStart, Action _onScoreMultiplyFinish)
+    public int CurScore => curScore;
+
+    public void Init(Action<int> _onUpdateScoreAction)
     {
         waitScoreMultiplierTime = new WaitForSeconds(ScoreMultiplierTime);
         onUpdateScoreAction = _onUpdateScoreAction;
-        onScoreMultiplyStart = _onScoreMultiplyStart;
-        onScoreMultiplyFinish = _onScoreMultiplyFinish;
         curMultiplier = 1;
+        multiScoreObserverList = new();
         sResult = new SResult();
     }
 
@@ -92,10 +92,10 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     private IEnumerator ScoreMultiplyTimerCoroutine(int _multiplierVal)
     {
         curMultiplier = _multiplierVal;
-        onScoreMultiplyStart?.Invoke();
+        NotifyMultiScoreObservers(true, _multiplierVal);
         yield return waitScoreMultiplierTime;
         curMultiplier = 1;
-        onScoreMultiplyFinish?.Invoke();
+        NotifyMultiScoreObservers(false, 1);
     }
 
     private IEnumerator CalcAPSCoroutine()
@@ -117,7 +117,7 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
 
     private bool IsTouchInputDetected()
     {
-        // 모바일 터치가 발생했는지 확인합니다.
+        // 모바일 터치가 발생했는지 확인
         return Input.touchCount > 0;
     }
 
@@ -131,7 +131,10 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
         APS = actionCount / elapsedTime;
 
         if (elapsedTime < 1f)
+        {
             bestAPS = APS;
+            return;
+        }
 
         if (APS > bestAPS)
             bestAPS = APS;
@@ -146,6 +149,24 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
     {
         isFever = _isFeverStart;
         // 점수를 배수할지 아니면 뭐 재화를 획득하게 할지 고민중
+    }
+
+    public void RegisterMultiScoreObserver(IMultiScoreObserver _observer)
+    {
+        if(!multiScoreObserverList.Contains(_observer))
+            multiScoreObserverList.Add(_observer);
+    }
+
+    public void UnregisterMultiScoreObserver(IMultiScoreObserver _observer)
+    {
+        if (multiScoreObserverList.Contains(_observer))
+            multiScoreObserverList.Remove(_observer);
+    }
+
+    public void NotifyMultiScoreObservers(bool _isStart, int _multiplyFactor)
+    {
+        foreach (var observer in multiScoreObserverList)
+            observer.OnMultiScoreNotify(_isStart, _multiplyFactor);
     }
 }
 

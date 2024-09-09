@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IFeverSubject
 {
     void RegisterFeverObserver(IFeverObserver _observer);
-    void UnregisterObserver(IFeverObserver _observer);
-    void NotifyObservers(in bool _isFeverStart);
+    void UnregisterFeverObserver(IFeverObserver _observer);
+    void NotifyFeverObservers(in bool _isFeverStart);
 }

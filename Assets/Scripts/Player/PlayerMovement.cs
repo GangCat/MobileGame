@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
             transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
             prevDir = curDir;
             updateModelForwardAction?.Invoke(curDir);
-            NotifyObservers(curBlockType);
+            NotifyPlayerMoveObservers(curBlockType);
         }
         else
         {
@@ -174,7 +174,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
         HandleMovement();
     }
 
-    public void RegisterObserver(IPlayerMoveObserver _observer)
+    public void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer)
     {
         if (!observerList.Contains(_observer))
         {
@@ -182,7 +182,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
         }
     }
 
-    public void UnregisterObserver(IPlayerMoveObserver _observer)
+    public void UnregisterPlayerMoveObserver(IPlayerMoveObserver _observer)
     {
         if (observerList.Contains(_observer))
         {
@@ -190,7 +190,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
         }
     }
 
-    public void NotifyObservers(in EBlockType _blockType)
+    public void NotifyPlayerMoveObservers(in EBlockType _blockType)
     {
         foreach (var observer in observerList)
         {

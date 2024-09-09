@@ -25,7 +25,7 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
 
     private IEnumerator FeverCoroutine()
     {
-        NotifyObservers(true);
+        NotifyFeverObservers(true);
         feverSlider.gameObject.SetActive(true);
         feverSlider.value = 1f;
         float elapsedTime = feverTime;
@@ -36,10 +36,10 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
             yield return null;
         }
         feverSlider.gameObject.SetActive(false);
-        NotifyObservers(false);
+        NotifyFeverObservers(false);
     }
 
-    public void NotifyObservers(in bool _isFeverStart)
+    public void NotifyFeverObservers(in bool _isFeverStart)
     {
         foreach(var observer in observerList)
             observer.OnFeverNotify(_isFeverStart);
@@ -52,7 +52,7 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
             observerList.Add(_observer);
     }
 
-    public void UnregisterObserver(IFeverObserver _observer)
+    public void UnregisterFeverObserver(IFeverObserver _observer)
     {
         if (observerList.Contains(_observer))
             observerList.Remove(_observer);

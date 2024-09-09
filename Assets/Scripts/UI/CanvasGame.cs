@@ -13,6 +13,8 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     private TextMeshProUGUI scoreText = null;
     [SerializeField]
     private ArrowButton[] arrowBtnArr = null;
+    [SerializeField]
+    private MultiScoreTextEffect[] multiScoreTextEffectArr = null;
 
     private List<IArrowButtonClickObserver> observerList = null;
 
@@ -24,10 +26,13 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
         gameObject.SetActive(false);
         observerList = new List<IArrowButtonClickObserver>();
 
+        foreach (var effect in multiScoreTextEffectArr)
+            effect.Init();
+
         foreach(var arrowBtn in  arrowBtnArr)
         {
             arrowBtn.Init();
-            arrowBtn.SetOnClickAction(() => { NotifyObservers(arrowBtn.ArrowType); });
+            arrowBtn.SetOnClickAction(() => { NotifyArrowButtonClickObservers(arrowBtn.ArrowType); });
         }
     }
 
@@ -64,17 +69,21 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
         scoreText.text = _score.ToString();
     }
 
-    public void StartSpeedLine()
+    public void StartMultiplyScore(int _multiFactor)
     {
         speedLineImage.ShowSpeedLine();
+        foreach (var effect in multiScoreTextEffectArr)
+            effect.StartEffect(_multiFactor);
     }
 
-    public void FinishSpeedLine()
+    public void FinishMultiplyScore()
     {
         speedLineImage.HideSpeedLine();
+        foreach (var effect in multiScoreTextEffectArr)
+            effect.FinishEffect();
     }
 
-    public void RegisterObserver(IArrowButtonClickObserver _observer)
+    public void RegisterArrowButtonClickObserver(IArrowButtonClickObserver _observer)
     {
         if (!observerList.Contains(_observer))
         {
@@ -82,7 +91,7 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
         }
     }
 
-    public void UnregisterObserver(IArrowButtonClickObserver _observer)
+    public void UnregisterArrowButtonClickObserver(IArrowButtonClickObserver _observer)
     {
         if (observerList.Contains(_observer))
         {
@@ -90,7 +99,7 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
         }
     }
 
-    public void NotifyObservers(in EArrowButtonType _arrowType)
+    public void NotifyArrowButtonClickObservers(in EArrowButtonType _arrowType)
     {
         foreach (var observer in observerList)
         {

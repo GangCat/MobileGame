@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IFadeOutFinishSubject
 {
-    void RegisterObserver(IFadeOutFinishObserver _observer);
-    void UnregisterObserver(IFadeOutFinishObserver _observer);
-    void NotifyObservers();
+    void RegisterFadeOutFinishObserver(IFadeOutFinishObserver _observer);
+    void UnregisterFadeOutFinishObserver(IFadeOutFinishObserver _observer);
+    void NotifyFadeOutFinishObservers();
 }

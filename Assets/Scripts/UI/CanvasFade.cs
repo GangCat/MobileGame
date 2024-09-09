@@ -63,25 +63,25 @@ public class CanvasFade : MonoBehaviour, IFadeOutFinishSubject
             fadeImage.enabled = false;
         else
         {
-            NotifyObservers();
+            NotifyFadeOutFinishObservers();
             FadeIn();
         }
     }
 
-    public void RegisterObserver(IFadeOutFinishObserver _observer)
+    public void RegisterFadeOutFinishObserver(IFadeOutFinishObserver _observer)
     {
         observerList ??= new List<IFadeOutFinishObserver>();
         if(!observerList.Contains(_observer))
             observerList.Add(_observer);
     }
 
-    public void UnregisterObserver(IFadeOutFinishObserver _observer)
+    public void UnregisterFadeOutFinishObserver(IFadeOutFinishObserver _observer)
     {
         if(observerList.Contains(_observer))
             observerList.Remove(_observer);
     }
 
-    public void NotifyObservers()
+    public void NotifyFadeOutFinishObservers()
     {
         foreach (var observer in observerList)
             observer.OnFadeOutFinishNotify();

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour, IFeverObserver
+public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
 {
     [SerializeField]
     private Slider hpSlider = null;
@@ -68,23 +68,12 @@ public class UIManager : MonoBehaviour, IFeverObserver
 
     public void RegisterArrowClickObserver(IArrowButtonClickObserver _observer)
     {
-        canvasGame.RegisterObserver(_observer);
+        canvasGame.RegisterArrowButtonClickObserver(_observer);
     }
 
     public void RegisterFadeFinishObserver(IFadeOutFinishObserver _observer)
     {
-        canvasFade.RegisterObserver(_observer);
-    }
-
-
-    public void StartSpeedLine()
-    {
-        canvasGame.StartSpeedLine();
-    }
-
-    public void FinishSpeedLine()
-    {
-        canvasGame.FinishSpeedLine();
+        canvasFade.RegisterFadeOutFinishObserver(_observer);
     }
 
     public void UpdatePlayerHP(float _curHP)
@@ -109,5 +98,13 @@ public class UIManager : MonoBehaviour, IFeverObserver
             canvasGame.StartFever();
         else
             canvasGame.StopFever();
+    }
+
+    public void OnMultiScoreNotify(bool _isStart, int _multiplyFactor)
+    {
+        if (_isStart)
+            canvasGame.StartMultiplyScore(_multiplyFactor);
+        else
+            canvasGame.FinishMultiplyScore();
     }
 }

@@ -1,6 +1,6 @@
 public interface IPlayerMoveSubject
 {
-    void RegisterObserver(IPlayerMoveObserver _observer);
-    void UnregisterObserver(IPlayerMoveObserver _observer);
-    void NotifyObservers(in EBlockType _blockType);
+    void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer);
+    void UnregisterPlayerMoveObserver(IPlayerMoveObserver _observer);
+    void NotifyPlayerMoveObservers(in EBlockType _blockType);
 }

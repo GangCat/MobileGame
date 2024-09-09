@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
 
     public void RegisterPlayerMoveObserver(IPlayerMoveObserver _observer)
     {
-        movement.RegisterObserver(_observer);
+        movement.RegisterPlayerMoveObserver(_observer);
     }
 
     public void ResetPlayer()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IArrowButtonClickSubject 
 {
-    void RegisterObserver(IArrowButtonClickObserver _observer);
-    void UnregisterObserver(IArrowButtonClickObserver _observer);
-    void NotifyObservers(in EArrowButtonType _arrowType);
+    void RegisterArrowButtonClickObserver(IArrowButtonClickObserver _observer);
+    void UnregisterArrowButtonClickObserver(IArrowButtonClickObserver _observer);
+    void NotifyArrowButtonClickObservers(in EArrowButtonType _arrowType);
 }
