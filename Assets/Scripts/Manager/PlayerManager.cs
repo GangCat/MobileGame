@@ -22,6 +22,9 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
         model = GetComponentInChildren<PlayerModelController>();
         gameoverObserverList = new();
 
+        foreach (var trail in modelPartTrailArr)
+            trail.Init();
+
         model.Init();
         movement.Init(_blockManager, onGameOver, inventory.ProcessBlock, model.UpdateModelForward);
         inventory.Init();
@@ -63,6 +66,8 @@ public class PlayerManager : MonoBehaviour, IArrowButtonClickObserver, IFadeOutF
     {
         movement.IsGameOver = false;
         health.IsGameStop = false;
+        foreach (var modelPartTrail in modelPartTrailArr)
+            modelPartTrail.StartTrail();
     }
 
     public float UpdatePlayerHP()

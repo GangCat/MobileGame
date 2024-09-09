@@ -10,6 +10,18 @@ public class ModelPartTrail : MonoBehaviour
 {
     [SerializeField]
     private Transform targetModelPartTr = null;
+    private TrailRenderer myTrail = null;
+
+    public void StartTrail()
+    {
+        myTrail.enabled = true;
+    }
+
+    public void Init()
+    {
+        myTrail = GetComponent<TrailRenderer>();
+        myTrail.enabled = false;
+    }
 
     private void Update()
     {
@@ -20,5 +32,6 @@ public class ModelPartTrail : MonoBehaviour
     {
         transform.position = targetModelPartTr.position;
         GetComponent<TrailRenderer>().Clear();
+        myTrail.enabled = false;
     }
 }
