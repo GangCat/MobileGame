@@ -1151,10 +1151,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uADF8 \uC810\uC218 \uBC30\uC218\uC77C\uB54C\uB294\n\uD654\uBA74 \uC88C\uC0C1\uB2E8,
+  m_text: "\uADF8 \uC810\uC218 \uBC30\uC218\uC77C\uB54C\uB294\n(\uD654\uBA74 \uC88C\uC0C1\uB2E8,
     \uC6B0\uC0C1\uB2E8\uC5D0 X2 X3 \uC774\uB7F0\uAC70 \uC801\uC5B4\uB450\uACE0\n\uC815\uC2E0\uC0AC\uB0A9\uAC8C
-    \uC6C0\uC9C1\uC774\uAC8C \uD558\uACE0\n\uC774\uAC70 \uB044\uB294 \uC635\uC158
-    \uCD94\uAC00"
+    \uC6C0\uC9C1\uC774\uAC8C \uD558\uACE0)\n\uC774\uAC70 \uB044\uB294 \uC635\uC158
+    \uCD94\uAC00\n\n\uBAAC\uC2A4\uD130 \uCD94\uAC00\n\n\uD14D\uC2A4\uD2B8\uC774\uD399\uD2B8
+    \uD55C 3\uAC1C \uB9CC\uB4E4\uC5B4\uC11C \uB79C\uB364\uC73C\uB85C \uACE8\uB77C\uC11C
+    \uC560\uB2C8\uBA54\uC774\uC158 \uC7AC\uC0DD\uB418\uAC8C \uD560\uAE4C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
