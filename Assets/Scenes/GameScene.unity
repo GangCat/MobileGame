@@ -4165,6 +4165,8 @@ MonoBehaviour:
   enemyPathArr:
   - Enemy.prefab
   - Enemy2.Prefab
+  - Enemy3.prefab
+  - Enemy4.prefab
 --- !u!4 &1007550507
 Transform:
   m_ObjectHideFlags: 0
