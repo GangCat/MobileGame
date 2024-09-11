@@ -6,13 +6,6 @@ using TMPro;
 public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
 {
     [SerializeField]
-    private Slider hpSlider = null;
-    [SerializeField]
-    private TextMeshProUGUI scoreText = null;
-    [SerializeField]
-    private TextMeshProUGUI countdownText = null;
-
-    [SerializeField]
     private CanvasResult canvasResult;
     [SerializeField]
     private CanvasLobby canvasLobby;
@@ -22,16 +15,17 @@ public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
     private CanvasFade canvasFade = null;
     [SerializeField]
     private CanvasSettings canvasSettings = null;
+    [SerializeField]
+    private CanvasContinue canvasContinue = null;
 
     public void Init(Action _startGameAction, Action<bool> _onVibeSetAction)
     {
-        hpSlider.value = 100;
-        scoreText.text = "0";
         canvasLobby.Init(_startGameAction, canvasSettings.OpenSettings);
         canvasResult.Init(canvasFade.FadeOut);
         canvasGame.Init();
         canvasFade.Init();
         canvasSettings.Init(canvasLobby.ShowLobby, _onVibeSetAction);
+        canvasContinue.Init();
 
         RegisterFadeFinishObserver(canvasLobby);
         RegisterFadeFinishObserver(canvasResult);
@@ -44,7 +38,7 @@ public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
 
     public void Countdown(int _count)
     {
-        countdownText.text = _count.ToString();
+        canvasGame.CountDown(_count);
     }
 
     /// <summary>
@@ -54,7 +48,6 @@ public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
     {
         canvasLobby.HideLobby();
         canvasGame.ShowGameUI();
-        countdownText.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -62,7 +55,6 @@ public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
     /// </summary>
     public void StartGame()
     {
-        countdownText.gameObject.SetActive(false);
         canvasGame.StartGame();
     }
 
@@ -78,7 +70,7 @@ public class UIManager : MonoBehaviour, IFeverObserver, IMultiScoreObserver
 
     public void UpdatePlayerHP(float _curHP)
     {
-        hpSlider.value = _curHP;
+        canvasGame.UpdatePlayerHP(_curHP);
     }
 
     public void UpdateScore(int _score)

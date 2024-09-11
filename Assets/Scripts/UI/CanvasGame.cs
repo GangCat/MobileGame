@@ -12,6 +12,10 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     [SerializeField]
     private TextMeshProUGUI scoreText = null;
     [SerializeField]
+    private TextMeshProUGUI countdownText = null;
+    [SerializeField]
+    private Slider hpSlider = null;
+    [SerializeField]
     private ArrowButton[] arrowBtnArr = null;
     [SerializeField]
     private MultiScoreTextEffect[] multiScoreTextEffectArr = null;
@@ -22,8 +26,8 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     {
         speedLineImage.Init();
         scoreText.text = "0";
+        hpSlider.value = 100;
         scoreText.enabled = false;
-        gameObject.SetActive(false);
         observerList = new List<IArrowButtonClickObserver>();
 
         foreach (var effect in multiScoreTextEffectArr)
@@ -34,6 +38,9 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
             arrowBtn.Init();
             arrowBtn.SetOnClickAction(() => { NotifyArrowButtonClickObservers(arrowBtn.ArrowType); });
         }
+
+        countdownText.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void StartFever()
@@ -49,6 +56,7 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
     public void ShowGameUI()
     {
         gameObject.SetActive(true);
+        countdownText.gameObject.SetActive(true);
     }
 
     public void GameOver()
@@ -60,6 +68,7 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
 
     public void StartGame()
     {
+        countdownText.gameObject.SetActive(false);
         scoreText.text = "0";
         scoreText.enabled = true;
     }
@@ -81,6 +90,16 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
         speedLineImage.HideSpeedLine();
         foreach (var effect in multiScoreTextEffectArr)
             effect.FinishEffect();
+    }
+
+    internal void CountDown(int _count)
+    {
+        countdownText.text = _count.ToString();
+    }
+
+    internal void UpdatePlayerHP(float _curHP)
+    {
+        hpSlider.value = _curHP;
     }
 
     public void RegisterArrowButtonClickObserver(IArrowButtonClickObserver _observer)
@@ -106,4 +125,6 @@ public class CanvasGame : MonoBehaviour, IArrowButtonClickSubject
             observer.OnArrowButtonClickNotify(_arrowType);
         }
     }
+
+
 }
