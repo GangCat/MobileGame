@@ -2,36 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : OOBController
 {
 
-    private bool isMoveRight = true;         // 오른쪽으로 이동할지 여부
+    private bool isMoveRight = true;         // 사망처리시에 오른쪽으로 떨어질지 여부
 
     private float gravity = 40f;  // 중력
 
-    private ObjectPoolManager poolMng = null;
     private EnemyModelController enemyModelCtrl = null;
 
-    public void Init(WalkableBlock _block, ObjectPoolManager _poolMng)
+    public override void Init(WalkableBlock _block, ObjectPoolManager _poolMng)
     {
-        transform.position = new Vector3(_block.Position.x, 0f, _block.Position.y);
-        transform.forward = _block.Forward;
-        poolMng = _poolMng;
-        _block.EnemyController = this;
+        base.Init(_block, _poolMng);
         enemyModelCtrl = GetComponent<EnemyModelController>();
     }
 
-    public void Die()
+    public override void Die()
     {
         //사망
         StartCoroutine(MoveInParabola());
         enemyModelCtrl.PlayDeath();
-        Debug.Log("적 사망");
     }
 
-    public void Return()
+    public override void Return()
     {
-        poolMng.ReturnObj(gameObject);
+        base.Return();
     }
 
 

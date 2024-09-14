@@ -58,3 +58,11 @@ public struct SSettingValue
     float sfxVolume;
     bool isVibrate;
 }
+
+public enum ENextBlockType
+{
+    NONE = -1,
+    COLLECT,
+    WRONG,
+    EMPTY
+}

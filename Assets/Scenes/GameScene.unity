@@ -1671,6 +1671,7 @@ GameObject:
   - component: {fileID: 466152052}
   - component: {fileID: 466152051}
   - component: {fileID: 466152053}
+  - component: {fileID: 466152054}
   m_Layer: 0
   m_Name: WalkableBlockManager
   m_TagString: Untagged
@@ -1718,14 +1719,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114cde3304f22c844beff1c7ef2d6f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardProbability: 60
+  forwardProbability: 50
   minScoreBlockInterval: 50
-  minFeverBlockInterval: 20
+  minFeverBlockInterval: 30
   scoreBlockProbabilityIncrement: 0.1
   feverBlockProbabilityIncrement: 0.05
   normalBlockPrefabPath: WalkableBlock.prefab
   doubleBlockPrefabPath: doubleBlock.Prefab
   tripleBlockPrefabPath: tripleBlock.Prefab
+--- !u!114 &466152054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466152050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5baf393a5718759408ff3382a189e6e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPathArr:
+  - Enemy.prefab
+  - Enemy2.Prefab
+  - Enemy3.prefab
+  - Enemy4.prefab
+  feverStarPath: FeverStar.prefab
 --- !u!1 &480628148
 GameObject:
   m_ObjectHideFlags: 0

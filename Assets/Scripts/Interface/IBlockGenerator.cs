@@ -7,5 +7,5 @@ public interface IBlockGenerator
     public WalkableBlock GenerateNextBlock(); // 내부 로직에 맞게 다음 블럭을 생성하는 함수
     public WalkableBlock GenerateStartBlock();
     public void ResetBlock();
-    public void SetFeverStart(bool _isFeverStart);
+    void SetFeverStart(bool isFeverStart);
 }

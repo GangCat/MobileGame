@@ -8,7 +8,7 @@ public class WalkableBlock : MonoBehaviour
     [SerializeField]
     private Renderer myRenderer;
 
-    private EnemyController enemyController = null;
+    private OOBController enemyController = null;
 
     [SerializeField]
     private float intensityFactor = 4f;
@@ -19,7 +19,7 @@ public class WalkableBlock : MonoBehaviour
     public Vector3 Forward => transform.forward;
     public Vector2 Position { get; private set; }
     public EBlockType BlockType => blockType;
-    public EnemyController EnemyController 
+    public OOBController OOBController 
     { 
         set
         {

@@ -75,10 +75,14 @@ public class ScoreManager : MonoBehaviour, IPlayerMoveObserver, IFadeOutFinishOb
         {
             case EBlockType.DOUBLE_SCORE:
                 // 시간측정 코루틴 시작, 점수 2배 적용
+                StopCoroutine(nameof(ScoreMultiplyTimerCoroutine));
+                NotifyMultiScoreObservers(false, 1);
                 StartCoroutine(nameof(ScoreMultiplyTimerCoroutine), 2);
                 break;
             case EBlockType.TRIPLE_SCORE:
                 // 시간측정 코루틴 시작, 점수 3배 적용
+                StopCoroutine(nameof(ScoreMultiplyTimerCoroutine));
+                NotifyMultiScoreObservers(false, 1);
                 StartCoroutine(nameof(ScoreMultiplyTimerCoroutine), 3);
                 break;
         }

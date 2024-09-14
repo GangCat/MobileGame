@@ -20,6 +20,7 @@ public class FeverManager : MonoBehaviour, IPlayerMoveObserver, IFeverSubject
 
     public void StartFever()
     {
+        StopCoroutine(nameof(FeverCoroutine));
         StartCoroutine(nameof(FeverCoroutine));
     }
 
