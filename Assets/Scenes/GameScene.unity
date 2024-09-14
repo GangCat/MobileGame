@@ -1720,9 +1720,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardProbability: 60
   minScoreBlockInterval: 50
-  minFeverBlockInterval: 200
+  minFeverBlockInterval: 20
   scoreBlockProbabilityIncrement: 0.1
-  invincibleBlockProbabilityIncrement: 0.1
+  feverBlockProbabilityIncrement: 0.05
   normalBlockPrefabPath: WalkableBlock.prefab
   doubleBlockPrefabPath: doubleBlock.Prefab
   tripleBlockPrefabPath: tripleBlock.Prefab

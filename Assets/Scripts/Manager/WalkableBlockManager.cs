@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeOutFinishObserver, IPlayerMoveObserver
+public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeOutFinishObserver, IPlayerMoveObserver, IFeverObserver
 {
     [SerializeField]
     private int totalBlockCount = 10;
@@ -130,5 +130,10 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
     {
         foreach (var block in blockQueue)
             block.UpdateIdx();
+    }
+
+    public void OnFeverNotify(in bool _isFeverStart)
+    {
+        iBlockGenerator.SetFeverStart(_isFeverStart);
     }
 }

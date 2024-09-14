@@ -15,11 +15,15 @@ public class GameManager : MonoBehaviour, IGameOverObserver
     private VibrateManager vibMng = null;
     private Cam cam = null;
 
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+    }
+
     private void Start()
     {
-        QualitySettings.vSyncCount = 0;  // VSync 끄기
-        Application.targetFrameRate = 120;
-
+        Debug.Log("이어아" + QualitySettings.vSyncCount);
         playerMng = FindObjectOfType<PlayerManager>();
         walkableBlockMng = FindObjectOfType<WalkableBlockManager>();
         uiMng = FindObjectOfType<UIManager>();
@@ -70,6 +74,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         feverMng.RegisterFeverObserver(scoreMng);
         feverMng.RegisterFeverObserver(particleMng);
         feverMng.RegisterFeverObserver(audioMng);
+        feverMng.RegisterFeverObserver(walkableBlockMng);
 
         playerMng.RegisterGameOverObserver(this);
         playerMng.RegisterGameOverObserver(cam);

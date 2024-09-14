@@ -14,7 +14,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     [SerializeField]
     private float scoreBlockProbabilityIncrement = 0.05f; // 스코어 블럭 확률 상승 계수
     [SerializeField]
-    private float invincibleBlockProbabilityIncrement = 0.05f; // 무적버프 블럭 확률 상승 계수
+    private float feverBlockProbabilityIncrement = 0.05f; // 무적버프 블럭 확률 상승 계수
 
     [SerializeField]
     private string normalBlockPrefabPath;
@@ -29,8 +29,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
     private float scoreBlockProbability = 0f; // 현재 스코어 블럭 생성 확률
     private uint scoreblockCnt = 0; // 스코어 블럭이 생성된 개수
 
-    private uint invincibleBlockInterval = 0;
-    private float invincibleBlockProbability = 0f;
+    private uint feverBlockInterval = 0;
+    private float feverBlockProbability = 0f;
 
     private Vector2 curBlockDir = Vector2.zero;
     private System.Random random;
@@ -51,6 +51,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     private bool isTurned = false;
     private int totalBlockCount = 0;
+    private bool isFever = false;
 
 
     // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
@@ -70,8 +71,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         scoreBlockProbability = 0f;
         scoreblockCnt = 0;
 
-        invincibleBlockInterval = 0;
-        invincibleBlockProbability = 0f;
+        feverBlockInterval = 0;
+        feverBlockProbability = 0f;
 
         poolManager.PrepareObjects(normalBlockPrefabPath, 7);
 
@@ -93,8 +94,10 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         scoreBlockProbability = 0f;
         scoreblockCnt = 0;
 
-        invincibleBlockInterval = 0;
-        invincibleBlockProbability = 0f;
+        isFever = false;
+
+        feverBlockInterval = 0;
+        feverBlockProbability = 0f;
 
         UpdateDirections();
 
@@ -161,7 +164,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         // 블럭 사이 개수 증가
         // 비교문으로 노말블럭만 하려다 비용아낄겸 그냥 더해주기로 함
         ++scoreBlockInterval;
-        ++invincibleBlockInterval;
+        ++feverBlockInterval;
 
         //  다음 블럭 방향이 정해질때까지 순환
         while (!isNextBlockPosConfirm)
@@ -218,6 +221,9 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     private EBlockType ConfirmBlockType()
     {
+        if (isFever)
+            return EBlockType.NORMAL;
+
         float randomVal = UnityEngine.Random.Range(0f, 1f);
         // 스코어블럭 생성주기가 되었을 경우
         if (scoreBlockInterval >= minScoreBlockInterval)
@@ -246,14 +252,14 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             }
         }
 
-        if (invincibleBlockInterval >= minFeverBlockInterval)
+        if (feverBlockInterval >= minFeverBlockInterval)
         {
-            invincibleBlockProbability += invincibleBlockProbabilityIncrement;
+            feverBlockProbability += feverBlockProbabilityIncrement;
 
-            if(randomVal < invincibleBlockProbability)
+            if(randomVal < feverBlockProbability)
             {
-                invincibleBlockInterval = 0;
-                invincibleBlockProbability = 0f;
+                feverBlockInterval = 0;
+                feverBlockProbability = 0f;
                 return EBlockType.FEVER_BUFF;
             }
         }
@@ -268,5 +274,10 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         forwardProbability = originForwardProbability;
         sideProbability = originSideProbability;
         UpdateDirections();
+    }
+
+    public void SetFeverStart(bool _isFeverStart)
+    {
+        isFever = _isFeverStart;
     }
 }
