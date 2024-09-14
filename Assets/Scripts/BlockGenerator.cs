@@ -226,8 +226,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     private EBlockType ConfirmBlockType()
     {
-        if (isFeverStart is true)
-            return EBlockType.NORMAL;
+
 
         float randomVal = UnityEngine.Random.Range(0f, 1f);
         // 스코어블럭 생성주기가 되었을 경우
@@ -257,7 +256,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             }
         }
 
-        if (feverBlockInterval >= minFeverBlockInterval)
+        if (feverBlockInterval >= minFeverBlockInterval && !isFeverStart)
         {
             feverBlockProbability += feverBlockProbabilityIncrement;
 
