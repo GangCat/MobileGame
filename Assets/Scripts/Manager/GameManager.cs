@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour, IGameOverObserver
     private EnemyManager enemyMng = null;
     private FeverManager feverMng = null;
     private VibrateManager vibMng = null;
+    private AdManager adMng = null;
+    private int deadCount = 0;
     private Cam cam = null;
 
     private void Awake()
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         enemyMng = FindObjectOfType<EnemyManager>();
         feverMng = FindObjectOfType<FeverManager>();
         vibMng = FindObjectOfType<VibrateManager>();
+        adMng = FindObjectOfType<AdManager>();
         cam = FindObjectOfType<Cam>();
 
         enemyMng.Init(objectPoolMng);
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         audioMng.Init();
         feverMng.Init();
         vibMng.Init();
+        adMng.Init(audioMng.PauseBGM, audioMng.PlayBGM);
 
         playerMng.ResetPlayer();
         walkableBlockMng.ResetBlock();
@@ -81,8 +85,6 @@ public class GameManager : MonoBehaviour, IGameOverObserver
         playerMng.RegisterGameOverObserver(audioMng);
 
         scoreMng.RegisterMultiScoreObserver(uiMng);
-
-
     }
 
     private void SetVibe(bool _isVibrate)
@@ -98,8 +100,15 @@ public class GameManager : MonoBehaviour, IGameOverObserver
 
     private void HandleGameOver()
     {
+        ++deadCount;
         uiMng.GameOver(scoreMng.CalcResult());
         Debug.Log("Game Over: Handling game over in GameManager.");
+
+        if(deadCount > 2)
+        {
+            adMng.StartAd();
+            deadCount = 0;
+        }
         // 게임 종료 처리 로직
     }
 

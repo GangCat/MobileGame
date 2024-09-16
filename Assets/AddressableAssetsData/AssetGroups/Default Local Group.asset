@@ -132,6 +132,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0010bd5df8f9dae4f814a8cb23c38c61
+    m_Address: FeverStar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 038eb380f27e2c944997f1aa763ecb1f, type: 2}
   m_SchemaSet:

@@ -51,7 +51,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     private bool isTurned = false;
     private int totalBlockCount = 0;
-    private bool isFever = false;
+    private bool isFeverStart = false;
 
 
     // 그러면 생성할 위치가 이미 블럭이 있는지 예외처리 해야함.
@@ -70,6 +70,8 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         scoreBlockInterval = 0;
         scoreBlockProbability = 0f;
         scoreblockCnt = 0;
+
+        isFeverStart = false;
 
         feverBlockInterval = 0;
         feverBlockProbability = 0f;
@@ -94,7 +96,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         scoreBlockProbability = 0f;
         scoreblockCnt = 0;
 
-        isFever = false;
+        isFeverStart = false;
 
         feverBlockInterval = 0;
         feverBlockProbability = 0f;
@@ -161,6 +163,9 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
         // 블럭 타입 결정
         EBlockType blockType = ConfirmBlockType();
 
+        if (blockType == EBlockType.FEVER_BUFF)
+            Debug.Log("FeverBlockGen");
+
         // 블럭 사이 개수 증가
         // 비교문으로 노말블럭만 하려다 비용아낄겸 그냥 더해주기로 함
         ++scoreBlockInterval;
@@ -221,8 +226,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     private EBlockType ConfirmBlockType()
     {
-        if (isFever)
-            return EBlockType.NORMAL;
+
 
         float randomVal = UnityEngine.Random.Range(0f, 1f);
         // 스코어블럭 생성주기가 되었을 경우
@@ -252,7 +256,7 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
             }
         }
 
-        if (feverBlockInterval >= minFeverBlockInterval)
+        if (feverBlockInterval >= minFeverBlockInterval && !isFeverStart)
         {
             feverBlockProbability += feverBlockProbabilityIncrement;
 
@@ -278,6 +282,6 @@ public class BlockGenerator : MonoBehaviour, IBlockGenerator
 
     public void SetFeverStart(bool _isFeverStart)
     {
-        isFever = _isFeverStart;
+        isFeverStart = _isFeverStart;
     }
 }

@@ -9,6 +9,7 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
 
     private Queue<WalkableBlock> blockQueue = null;
     private IBlockGenerator iBlockGenerator = null;
+    private OOBGenerator objectGenerator = null;
     private WalkableBlock curBlock = null;
     private Action<WalkableBlock> blockGenerateAction = null;
 
@@ -16,18 +17,21 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
     {
         blockQueue = new Queue<WalkableBlock>();
         iBlockGenerator = GetComponent<IBlockGenerator>();
+        objectGenerator = GetComponent<OOBGenerator>();
         iBlockGenerator.Init(_poolManager, CheckIsNextBlockCanGen, totalBlockCount);
-        blockGenerateAction = _blockGenerateAction;
+        objectGenerator.Init(_poolManager);
+        //blockGenerateAction = _blockGenerateAction;
+        blockGenerateAction = (block) => objectGenerator.GenerateObject(block);
     }
 
-    public bool CheckBlockExistence(Vector2 _position)
+    public ENextBlockType CheckCanMove(Vector2 _position)
     {
         if (blockQueue.Count < 1)
-            return false;
+            return ENextBlockType.EMPTY;
 
         var block = blockQueue.Peek();
         if (block.Position == _position)
-            return true;
+            return ENextBlockType.COLLECT;
         else
         {
             List<WalkableBlock> tmpList = new List<WalkableBlock>(blockQueue);
@@ -42,11 +46,13 @@ public class WalkableBlockManager : MonoBehaviour, IWalkableBlockManager, IFadeO
 
                 // 큐를 갱신
                 blockQueue = new Queue<WalkableBlock>(tmpList);
-                return true;
+                return ENextBlockType.WRONG;
             }
         }
 
-        return false;
+        return ENextBlockType.EMPTY;
+
+
     }
 
     public EBlockType DequeueBlockAndGetBlockInterface()

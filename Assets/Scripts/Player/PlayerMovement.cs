@@ -73,25 +73,33 @@ public class PlayerMovement : MonoBehaviour, IPlayerMoveSubject, IGameOverObserv
 
         Vector2 _nextPosition = new Vector2(transform.position.x, transform.position.z) + curDir;
 
-        if (iBlockManager.CheckBlockExistence(_nextPosition))
-        {
-            var curBlockType = iBlockManager.DequeueBlockAndGetBlockInterface(); // 현재 위치의 블럭 제거
-            onInventoryIncreaseAction?.Invoke(curBlockType);
-            OnBlockProcessed?.Invoke();
-            transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
-            prevDir = curDir;
-            updateModelForwardAction?.Invoke(curDir);
-            NotifyPlayerMoveObservers(curBlockType);
-        }
-        else
-        {
-            iBlockManager.DequeueBlock(); // 블럭만 제거
-            transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
-            Debug.Log("Game Over: No block in the intended direction.");
-            onGameOverAction?.Invoke(); // 게임 종료를 알림
-        }
+        var nextBlockType = iBlockManager.CheckCanMove(_nextPosition);
 
-        
+        switch (nextBlockType)
+        {
+            case ENextBlockType.COLLECT:
+                var curBlockType = iBlockManager.DequeueBlockAndGetBlockInterface(); // 현재 위치의 블럭 제거
+                onInventoryIncreaseAction?.Invoke(curBlockType);
+                OnBlockProcessed?.Invoke();
+                transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
+                prevDir = curDir;
+                updateModelForwardAction?.Invoke(curDir);
+                NotifyPlayerMoveObservers(curBlockType);
+                break;
+            case ENextBlockType.WRONG:
+                // 잠시 스턴
+                // 몸 색 노랗게
+                // 아니면 몸 부르르하며 막힌 거 표시(스턴은 짧게)
+                break;
+            case ENextBlockType.EMPTY:
+                iBlockManager.DequeueBlock(); // 블럭만 제거
+                transform.position = new Vector3(_nextPosition.x, transform.position.y, _nextPosition.y);
+                Debug.Log("Game Over: No block in the intended direction.");
+                onGameOverAction?.Invoke(); // 게임 종료를 알림
+                break;
+            default:
+                break;
+        }
     }
 
     private void Update()
