@@ -670,6 +670,50 @@ Transform:
   - {fileID: 1263488413}
   m_Father: {fileID: 184479153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &157382590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 157382592}
+  - component: {fileID: 157382591}
+  m_Layer: 0
+  m_Name: AdManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &157382591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157382590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65562790375701498f270ae06b497a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &157382592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157382590}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &184479152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,11 +1332,9 @@ MonoBehaviour:
   m_text: "\uB514\uBC84\uADF8\uBAA8\uB4DC\n(\uCCB4\uB825 \uBB34\uD55C, \uBE14\uB7ED
     \uBB34\uC870\uAC74 \uC815\uBA74, \uC785\uB825\uD55C \uD0A4 \uBCF4\uC774\uAE30(\uCCA0\uAD8C\uC5F0\uC2B5\uCC98\uB7FC),
     \uB2E4\uC74C \uC0DD\uC131\uB418\uB294 \uBE14\uB7ED \uC124\uC815 - 2\uBC30 3\uBC30
-    \uBB34\uC801)\n\n\n\uD654\uC0B4\uD45C\uB97C \uB354 \uD06C\uAC8C, \uC0AC\uBD84\uD560\uD574\uC11C
-    \uB204\uB974\uAC8C \uD558\uB294 \uB290\uB08C\n\n\n\n\uBD80\uD65C\uAE30\uB2A5(\uC5EC\uAE30\uB2E4
-    \uAD11\uACE0 \uB123\uC5B4\uBCFC\uAC70\uB2C8\uAE4C)\n\n\n\n\n\uADF8 \uC810\uC218
-    \uBC30\uC218\uC77C\uB54C\uB294\n(\uD654\uBA74 \uC88C\uC0C1\uB2E8, \uC6B0\uC0C1\uB2E8\uC5D0
-    X2 X3 \uC774\uB7F0\uAC70 \uC801\uC5B4\uB450\uACE0\n\uC815\uC2E0\uC0AC\uB0A9\uAC8C
+    \uBB34\uC801)\n\n\n\n\uBD80\uD65C\uAE30\uB2A5(\uC5EC\uAE30\uB2E4 \uAD11\uACE0
+    \uB123\uC5B4\uBCFC\uAC70\uB2C8\uAE4C)\n\n\n\n\n\uADF8 \uC810\uC218 \uBC30\uC218\uC77C\uB54C\uB294\n(\uD654\uBA74
+    \uC88C\uC0C1\uB2E8, \uC6B0\uC0C1\uB2E8\uC5D0 X2 X3 \uC774\uB7F0\uAC70 \uC801\uC5B4\uB450\uACE0\n\uC815\uC2E0\uC0AC\uB0A9\uAC8C
     \uC6C0\uC9C1\uC774\uAC8C \uD558\uACE0)\n\uC774\uAC70 \uB044\uB294 \uC635\uC158
     \uCD94\uAC00\n\n\uD14D\uC2A4\uD2B8\uC774\uD399\uD2B8 \uD55C 3\uAC1C \uB9CC\uB4E4\uC5B4\uC11C
     \uB79C\uB364\uC73C\uB85C \uACE8\uB77C\uC11C \uC560\uB2C8\uBA54\uC774\uC158 \uC7AC\uC0DD\uB418\uAC8C
@@ -10834,6 +10876,7 @@ SceneRoots:
   - {fileID: 1126043105}
   - {fileID: 1581219763}
   - {fileID: 720291234}
+  - {fileID: 157382592}
   - {fileID: 253995331}
   - {fileID: 2120748532}
   - {fileID: 1245095310}
